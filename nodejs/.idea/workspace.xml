@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0a37e82d-baec-4103-bcfd-336469324135" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="E:\nodejs\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1uRCNwvv7V0d6uNoM8accq1F3qW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/images" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.splitter.proportion" value="0.20321931" />
+    <property name="ts.external.directory.path" value="E:\PHPStorm_setup\PHPStorm\PhpStorm 2019.2.5\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\nodejs\public\images" />
+      <recent name="E:\nodejs\public\javascripts" />
+      <recent name="E:\nodejs\image" />
+      <recent name="E:\nodejs\routes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\nodejs\views" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0a37e82d-baec-4103-bcfd-336469324135" name="Default Changelist" comment="" />
+      <created>1624618978210</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1624618978210</updated>
+      <workItem from="1624618990076" duration="497000" />
+      <workItem from="1624619579989" duration="14000" />
+      <workItem from="1624619834172" duration="33000" />
+      <workItem from="1624633201036" duration="5468000" />
+      <workItem from="1624694614555" duration="11766000" />
+      <workItem from="1624781953020" duration="7393000" />
+      <workItem from="1624799033086" duration="9817000" />
+      <workItem from="1624836757917" duration="6624000" />
+      <workItem from="1624849368016" duration="1381000" />
+      <workItem from="1624854732096" duration="10459000" />
+      <workItem from="1624884811274" duration="20674000" />
+      <workItem from="1624934910249" duration="3411000" />
+      <workItem from="1624940964215" duration="7264000" />
+      <workItem from="1624951316703" duration="6552000" />
+      <workItem from="1624958972880" duration="1908000" />
+      <workItem from="1624966521474" duration="14374000" />
+      <workItem from="1625023367127" duration="7003000" />
+      <workItem from="1625060596669" duration="1600000" />
+      <workItem from="1625147942376" duration="12816000" />
+      <workItem from="1625189849275" duration="924000" />
+      <workItem from="1625199531095" duration="9057000" />
+      <workItem from="1625233707148" duration="1604000" />
+      <workItem from="1625386429812" duration="9196000" />
+      <workItem from="1625452575308" duration="2456000" />
+      <workItem from="1625458131836" duration="8694000" />
+      <workItem from="1625493027716" duration="5651000" />
+      <workItem from="1625648834138" duration="3743000" />
+      <workItem from="1625906754944" duration="16438000" />
+      <workItem from="1626008816377" duration="853000" />
+      <workItem from="1626012938163" duration="1750000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

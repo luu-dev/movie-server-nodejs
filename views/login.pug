@@ -1,0 +1,48 @@
+doctype html
+head
+    meta(charset='utf-8')
+    title
+form(action='' method='post')
+    | First Name:
+    input(name='name' type='text' placeholder='Tên đăng nhập')
+    br
+    |     Last Name:
+    input(name='password' type='text' placeholder='Mật khẩu')
+    br
+    button#btn-login(type='submit') Login
+    //input(type='submit')
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+script(type='text/javascript').
+    $(document).ready(function()
+    {
+        var submit = $("button[type='submit']");
+        // bắt sự kiện click vào nút Login
+        submit.click(function()
+        {
+            var username = $("input[name='name']").val();
+            var password = $("input[name='password']").val();
+            // Kiểm tra đã nhập tên tài khoản chưa
+            if (username == '') {
+                alert('Vui lòng nhập tài khoản');
+                return false;
+            }
+            // Kiểm tra đã nhập mật khẩu chưa
+            if (password == '') {
+                alert('Vui lòng nhập mật khẩu');
+                return false;
+            }
+            // Lấy tất cả dữ liệu trong form login
+            //var data = $('form#form-login').serialize();
+            // Sử dụng $.ajax()
+            $.post("http://localhost:3031/user",
+                {
+                    name: username,
+                    password: password
+                },
+                function (data, status) {
+                    alert("Data: " + data + "\nStatus: " + status);
+                    window.location.href = "http://localhost:3031/movie";
+                });
+            return false;
+        });
+    });

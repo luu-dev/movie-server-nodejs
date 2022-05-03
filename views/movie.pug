@@ -1,0 +1,152 @@
+doctype html
+head
+    meta(charset='utf-8')
+    title
+form#movie_form_search(action='' method='post')
+    | Search movie from api to insert to db:
+    input(name='search' type='text' placeholder='search' value='sex')
+    br
+    button#btn-search(type='submit') Search
+
+    .template(style='display: none;')
+        .movie_detail.col-md-3(style='border: 1px solid #ccc;')
+            .well.text-center
+                img(src='')
+                h3.title
+                a.detail_btn.btn.btn-primary Insert to DB
+                br
+                form
+                    | Chọn thể loại:
+                    input(name="type" type="radio" value= 0)
+                    | up_coming
+                    input(name="type" type="radio" value= 1)
+                    | popular
+                    input(name="type" type="radio" value= 2)
+                    | now_playing
+
+    #movies.row
+
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+script(type='text/javascript').
+    $(document).ready(function () {
+        // bắt sự kiện click vào nút search
+        $('#movie_form_search').on('submit', function (e) {
+            e.preventDefault();
+            var name_input = $("#movie_form_search input[name='search']").val();
+            var result ={};
+            var checkbox = document.getElementsByName("type");
+
+
+            $(document).on("click", ".movie_detail .detail_btn", function () {
+                var typemovie = -1;
+
+                for (var i = 0; i < checkbox.length; i++) {
+                    if (checkbox[i].checked === true) {
+                        typemovie=checkbox[i].value;
+                        console.log(checkbox[i].value)
+                    }
+                }
+                // console.log('data-id: ', $(this).attr('data-id'));
+                // console.log('data: ', result[$(this).attr('data-id')]);
+                var movieid = result[$(this).attr('data-id')].id
+                if(result[$(this).attr('data-id')] != undefined) {
+                    var getmovie = result[$(this).attr('data-id')];
+                    var getCast ={};
+                    var getVideo={}
+                    console.log('movie-id',getmovie.id)
+                    $.get('https://api.themoviedb.org/3/movie/'+movieid+'/credits?api_key=7110422e82d3a45a61db16eaa75f3810&language=en-US',
+                        function (data, status) {
+                            if (status == 'success' && data != null) {
+                                getCast =data.cast;
+                            } else {
+                                console.log('Call movie detail error:', status);
+                            }
+                            ;
+                        });
+
+                        $.get('https://api.themoviedb.org/3/movie/' + movieid + '/videos?api_key=7110422e82d3a45a61db16eaa75f3810',
+                            function (data, status) {
+                                if (status == 'success' && data != null) {
+                                    //  console.log('cast___________', data);
+                                        getVideo=data.results;
+                                } else {
+                                    console.log('Call movie detail error:', status);
+                                }
+                                ;
+                            });
+
+                   var getDetail =  $.get('https://api.themoviedb.org/3/movie/'+movieid+'?api_key=7110422e82d3a45a61db16eaa75f3810',
+                        function (data, status) {
+                            if (status == 'success' && data !=null) {
+                              //  console.log('detail___________',data)
+                            } else {
+                                console.log('Call movie detail error:', status);
+                            }
+                            ;
+                        });
+                   insert = getDetail.then(function (datafromgetDetail) {
+                       getmovie.type = typemovie;
+                       getmovie.status = datafromgetDetail.status
+                       getmovie.runtime=datafromgetDetail.runtime
+                       getmovie.production_countries=datafromgetDetail.production_countries
+                       getmovie.production_companies=datafromgetDetail.production_companies
+                       getmovie.spoken_languages=datafromgetDetail.spoken_languages
+                       getmovie.cast = getCast
+                       getmovie.videos = getVideo
+                       $.ajax({
+                               type: 'POST', //kiểu post
+                               url: 'http://localhost:3031/movie/insertmovie',
+                               data: JSON.stringify({
+                                   movie_data: getmovie
+
+                               }),
+
+                               contentType: 'application/json',
+                               success: function (data) {
+                                   if (data == 'false') {
+                                       alert("film valid or error");
+                                   } else {
+                                       alert("success");
+                                   }
+
+                               },
+                               error: function () {
+                                   console.log("Film valid or error request!");
+
+                               }
+                           });
+                   })
+
+
+                }
+            });
+
+            $.get('https://api.themoviedb.org/3/search/movie?api_key=7110422e82d3a45a61db16eaa75f3810&query='+name_input+'&page=1',
+                function (data, status) {
+                    if(status == 'success' && data.results != undefined) {
+                        result = data.results
+
+                        $('#movies').html('');//clear before fill
+
+                        $.each(data.results, function (i, e) {
+                            let movie_detail_box = $('.template .movie_detail').clone();
+                            movie_detail_box.find('img').attr('src','https://image.tmdb.org/t/p/w500'+e.poster_path);
+                            movie_detail_box.find('.title').html(e.title);
+                            movie_detail_box.find('.detail_btn').attr('data-id',i)
+                            $('#movies').append(movie_detail_box);
+                        });
+                    }else {
+                        console.log('Call movie detail error:', status);
+                    };
+                });
+
+
+
+
+        });
+    });
+
+
+
+
+

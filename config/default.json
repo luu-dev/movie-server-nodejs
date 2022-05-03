@@ -1,0 +1,10 @@
+{
+  "env": "dev",
+  "port": 3031,
+  "sql_host": "172.0.0.1",
+  "sql_port": 27017,
+  "sql_username": "",
+  "sql_password": "",
+  "mongo_db": "mongodb://localhost:27017/moviedb",
+  "api_key": "luuquangchau"
+}
