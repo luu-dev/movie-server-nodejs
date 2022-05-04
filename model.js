@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.set('useFindAndModify', false);
 
-mongoose.connect(config.get('mongo_db') , { useNewUrlParser : true });
+mongoose.connect(config.get('mongo_db') , { useNewUrlParser : true, useUnifiedTopology: true });
 
 var userSchema = new Schema({
     name : String,
