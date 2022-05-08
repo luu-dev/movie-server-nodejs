@@ -15,6 +15,7 @@ var tsRouter = require('./routes/ts');
 var movieRouter = require('./routes/movie');
 var adminIndexRouter = require('./routes/admin/index');
 var companyRouter = require('./routes/company');
+var castRouter = require('./routes/cast');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/ts', tsRouter);
 app.use('/movie', movieRouter);
 app.use('/admin', adminIndexRouter);
 app.use('/company', companyRouter);
+app.use('/cast', castRouter);
 
 
 // catch 404 and forward to error handler
