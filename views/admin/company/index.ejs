@@ -1,0 +1,131 @@
+<div class="main-panel page-company" >
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">Company</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Tables</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Datatables</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Add Row</h4>
+                                <button class="btn btn-primary btn-round ml-auto company_add_btn">
+                                    <i class="fa fa-plus"></i>
+                                    Add Row
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display table table-striped table-hover company_list_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Origin Country</th>
+                                        <th>Logo Path</th>
+                                        <th style="width: 10%">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Origin Country</th>
+                                        <th>Logo Path</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- create, update modal -->
+    <%- include ('create') %>
+
+    <div class="template hidden">
+        <table>
+            <tr>
+                <td class="item_name"></td>
+                <td class="item_country"></td>
+                <td class="item_img"><img src="" alt="" /></td>
+                <td class="item_action">
+                    <div class="form-button-action">
+                        <button type="button" data-toggle="tooltip" title=""
+                                class="btn btn-link btn-primary btn-lg edit"
+                                data-original-title="Edit Task" data-id="">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button type="button" data-toggle="tooltip" title=""
+                                class="btn btn-link btn-danger delete"
+                                data-original-title="Remove" data-id="">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //call other function
+        $('[data-callfunc]').on('click', function() {
+            var fnc_name = $(this).attr('data-callfunc');
+
+            if(fnc_name == 'company' && typeof showCompany == 'function') {
+                showCompany();
+            }
+        });
+
+        function showCompany() {
+        $.ajax({
+            url: '/company/list',
+            type: 'POST',
+            data: {}
+        })
+            .done(function (data) {
+                //append tyo view
+                let company_template = $('.page-company .template');
+                $(data).each(function (i, e) {
+                    let company_row = company_template.find('table tr').clone();
+                    company_row.find('.item_name').html(e.name);
+                    company_row.find('.item_country').html(e.origin_country);
+                    // company_row.find('.item_img img').attr('src', '/images' + e.logo_path);
+                    company_row.find('.item_action button').attr('data-id', e._id);
+                    $('.page-company .company_list_table tbody').append(company_row);
+                });
+            })
+            .fail(function (error) {
+                console.log('error:', error.message);
+            });
+    }
+    });
+</script>

@@ -33,6 +33,7 @@ var productionCompanySchema = new Schema({
     name: String,
     origin_country: String
 });
+
 var movieSchema = new Schema({
     adult: Boolean,
     backdrop_path: String,
