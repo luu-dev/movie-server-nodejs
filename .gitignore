@@ -2,3 +2,4 @@
 node_modules/
 /public/videos/
 /.idea/
+config/default.json
