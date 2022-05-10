@@ -60,6 +60,8 @@
         //edit click
         $(document).on('click', '.company_list_table .item_action button.edit', function () {
             var item_id = $(this).attr('data-id');
+
+
             if(item_id) {
                 let modal_company = $('#company_create_modal');
                 //clear data in modal
@@ -72,6 +74,25 @@
                 getDataCompany(item_id);
             }
         });
+
+        $(document).on('click', '.company_list_table .item_action button.delete', function () {
+            var item_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '/admin/company/delete',
+                type: 'POST',
+                dataType : 'json',
+                data: {
+                   _id :item_id
+                }
+            })
+                .done(function (data) {
+                     window.location.href = '/admin/company';
+
+                })
+
+        });
+
 
         //insert/update company
         $(document).on('click', '#company_create_modal button#addRowButton', function () {
@@ -90,7 +111,7 @@
                 //     action
                 // ]);
                 $.ajax({
-                    url: '/company/insert',
+                    url: '/admin/company/insert',
                     type: 'POST',
                     data: {
                         logo_path: $("#company_create_modal input#logo").val(),
@@ -117,7 +138,7 @@
             } else {
                 //update
                 $.ajax({
-                    url: '/company/update',
+                    url: '/admin/company/update',
                     type: 'POST',
                     dataType : 'json',
                     data: {
@@ -149,7 +170,7 @@
         function getDataCompany(id) {
             if(id) {
                 $.ajax({
-                    url: '/company/getItem',
+                    url: '/admin/company/getItem',
                     type: 'POST',
                     dataType : 'json',
                     data: {

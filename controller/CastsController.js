@@ -7,5 +7,5 @@ const getAllCasts = async (req, res, next) => {
         casts: list
     });
 
-}
+};
 module.exports = {getAllCasts};

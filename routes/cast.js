@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 const config = require('config');
 const bodyParser = require("body-parser");
-const model = require("../model");
-const cast = model.model('cast');
 const g_var = require('../modules/varible');
 const imageDownloader = require('node-image-downloader');
-const {getAllCasts} = require('../controller/casts');
+const {getAllCasts} = require('../controller/CastsController');
 
 router.get('/', getAllCasts);
 

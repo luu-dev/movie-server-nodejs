@@ -96,18 +96,12 @@
 
 <script>
     $(document).ready(function () {
-        //call other function
-        $('[data-callfunc]').on('click', function() {
-            var fnc_name = $(this).attr('data-callfunc');
-
-            if(fnc_name == 'company' && typeof showCompany == 'function') {
-                showCompany();
-            }
-        });
+        //init js: call company list when load page
+        showCompany();
 
         function showCompany() {
         $.ajax({
-            url: '/company/list',
+            url: '/admin/company/list',
             type: 'POST',
             data: {}
         })

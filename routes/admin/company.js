@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 const config = require('config');
 const bodyParser = require("body-parser");
-const model = require("../model");
+const model = require("../../model");
 const company = model.model('production_company');
 
-const companyRes = require('../respository/CompanyRespository');
+const companyRes = require('../../controller/CompanyController');
 
+router.get('/', function(req, res, next) {
+    res.render('admin/company/index', { title: 'Company list' });
+});
 
 router.post('/list', function (req, res, next) {
     try {
@@ -60,6 +63,10 @@ router.post('/update', async function (req, res, next) {
     });
     res.status(200).send(update);
 });
+
+
+
+router.post('/delete',companyRes.delete);
 
 
 module.exports = router;

@@ -1,53 +1,55 @@
 const model = require("../model");
 const country = model.model('production_country');
 module.exports = {
-
-    insertCountry: async (req, res, next) => {
+    getList : async ()=>{
         try {
-            const body = req.body;
-            var data = {
-                iso_3166_1 : body.iso_3166_1,
-                name: body.name
-            };
+            var data = await country.find().exec();
+            return data;
 
-
-            await country.create(data);
-            res.status(200).send(data);
-
-        } catch (e) {
-            res.status(400).send(e)
-        }
-
-    },
-
-
-    updateCountry : async (req, res, next) => {
-        try {
-            const  _id = req.params._id;
-            const body = req.body;
-            var data = {
-                iso_3166_1 : body.iso_3166_1,
-                name: body.name
-
-            };
-            let ob = await company.findByIdAndUpdate(_id,data,{new : true});
-
-            res.status(200).send(data)
-
-        } catch (e) {
-            res.status(400).send(e.message)
+        }catch (e) {
+            return false;
         }
     },
 
-    deleteCountry : async (req, res, next) => {
+    getById: async (id) => {
         try {
-            const id = req.param.id;
-            const ob =   await country.findByIdAndRemove(id);
-
-            res.status(200).send("delete success")
+            return await country.findById(id);
 
         } catch (e) {
-            res.status(400).send(e.message)
+            console.log('country getById error:', e.message);
+            return false;
+        }
+    },
+    insert: async (data) => {
+        try {
+            return await country.create(data);
+
+        } catch (e) {
+            console.log('company insert error:', e.message);
+            return false;
+        }
+    },
+
+
+    update: async (id, data) => {
+        try {
+            let item = await country.findById(id);
+            item.iso_3166_1 = data.iso_3166_1;
+            item.name = data.name;
+
+            return await item.save();
+
+        } catch (e) {
+            console.log('country update error:', e.message);
+            return false;
+        }
+    },
+
+    delete: async (id) => {
+        try {
+            return await company.findByIdAndRemove(id);
+        } catch (e) {
+            return false
         }
     }
 };

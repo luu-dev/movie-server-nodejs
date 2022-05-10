@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const expressLayouts = require('express-ejs-layouts');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,14 +15,17 @@ var usersRouter = require('./routes/users');
 var tsRouter = require('./routes/ts');
 var movieRouter = require('./routes/movie');
 var adminIndexRouter = require('./routes/admin/index');
-var companyRouter = require('./routes/company');
+var adminCompanyRouter = require('./routes/admin/company');
+var adminCountryRouter = require('./routes/admin/country');
 var castRouter = require('./routes/cast');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// app.set('view engine', 'pug');
+app.use(expressLayouts);
+app.set('layout', './admin/layout');
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -36,7 +40,8 @@ app.use('/user', usersRouter);
 app.use('/ts', tsRouter);
 app.use('/movie', movieRouter);
 app.use('/admin', adminIndexRouter);
-app.use('/company', companyRouter);
+app.use('/admin/company', adminCompanyRouter);
+app.use('/admin/country', adminCountryRouter);
 app.use('/cast', castRouter);
 
 

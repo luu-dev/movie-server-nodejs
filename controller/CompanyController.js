@@ -35,12 +35,18 @@ module.exports = {
         }
     },
 
-    deleteCompany : async (req, res, next) => {
+    delete : async (req, res, next) => {
         try {
-            const id = req.param.id;
+            let body = req.body,
+                id = body._id;
+
             const ob =   await company.findByIdAndRemove(id);
 
-            res.status(200).send("delete success")
+            var response = {
+                status: false,
+                msg: 'delete success'
+            };
+             res.status(200).send(response)
 
         } catch (e) {
             res.status(400).send(e.message)
