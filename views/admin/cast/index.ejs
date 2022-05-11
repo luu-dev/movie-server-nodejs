@@ -1,0 +1,156 @@
+<div class="main-panel page-cast" >
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">Cast</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Tables</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Datatables</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Add Row</h4>
+                                <button class="btn btn-primary btn-round ml-auto cast_add_btn">
+                                    <i class="fa fa-plus"></i>
+                                    Add Row
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display table table-striped table-hover cast_list_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Adult</th>
+                                        <th>Gender</th>
+                                        <th>Known For Department</th>
+                                        <th>Original Name</th>
+                                        <th>Popularity</th>
+                                        <th>Profile_path</th>
+                                        <th>Cast Id</th>
+                                        <th>Character</th>
+                                        <th>Credit Id</th>
+                                        <th>Order</th>
+                                        <th style="width: 10%">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Adult</th>
+                                        <th>Gender</th>
+                                        <th>Known For Department</th>
+                                        <th>Original Name</th>
+                                        <th>Popularity</th>
+                                        <th>Profile Path</th>
+                                        <th>Cast Id</th>
+                                        <th>Character</th>
+                                        <th>Credit Id</th>
+                                        <th>Order</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- create, update modal -->
+    <%- include ('create') %>
+
+    <div class="template hidden">
+        <table>
+            <tr>
+                <td class="item_name"></td>
+                <td class="item_adult"></td>
+                <td class="item_gender"></td>
+                <td class="item_known-for-department"></td>
+                <td class="item_original-name"></td>
+                <td class="item_popularity"></td>
+                <td class="item_profile-path"></td>
+                <td class="item_card-id"></td>
+                <td class="item_character"></td>
+                <td class="item_credit-id"></td>
+                <td class="item_order"></td>
+                <td class="item_action">
+                    <div class="form-button-action">
+                        <button type="button" data-toggle="tooltip" title=""
+                                class="btn btn-link btn-primary btn-lg edit"
+                                data-original-title="Edit Task" data-id="">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button type="button" data-toggle="tooltip" title=""
+                                class="btn btn-link btn-danger delete"
+                                data-original-title="Remove" data-id="">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //init js: call cast list when load page
+        showCast();
+
+        function showCast() {
+            $.ajax({
+                url: '/admin/cast/list',
+                type: 'POST',
+                data: {}
+            })
+                .done(function (data) {
+                    //append tyo view
+                    let cast_template = $('.page-cast .template');
+                    $(data).each(function (i, e) {
+                        let cast_row = cast_template.find('table tr').clone();
+                        cast_row.find('.item_name').html(e.name);
+                        cast_row.find('.item_adult').html(e.adult);
+                        cast_row.find('.item_gender').html(e.gender);
+                        cast_row.find('.item_known-for-department').html(e.known_for_department);
+                        cast_row.find('.item_original-name').html(e.original_name);
+                        cast_row.find('.item_popularity').html(e.popularity);
+                        cast_row.find('.item_profile-path').html(e.profile_path);
+                        cast_row.find('.item_cast-id').html(e.cast_id);
+                        cast_row.find('.item_character').html(e.character);
+                        cast_row.find('.item_credit-id').html(e.credit_id);
+                        cast_row.find('.item_order').html(e.order);
+                        cast_row.find('.item_action button').attr('data-id', e._id);
+                        $('.page-cast .cast_list_table tbody').append(cast_row);
+                    });
+                })
+                .fail(function (error) {
+                    console.log('error:', error.message);
+                });
+        }
+    });
+</script>
