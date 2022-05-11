@@ -56,7 +56,11 @@ router.post('/delete', async function (req, res, next) {
         id = body.id;
     try {
         let remove = await countryRes.delete(id);
-        res.status(200).send("delete sucess");
+        var response = {
+            status: false,
+            msg: 'delete success'
+        };
+        res.status(200).send(response)
     }catch (e) {
         res.status(400).send("err");
 
