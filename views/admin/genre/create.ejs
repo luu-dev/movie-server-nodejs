@@ -1,0 +1,180 @@
+<!-- Modal -->
+<div class="modal fade" id="genre_create_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header no-bd">
+                <h5 class="modal-title">
+                    <span class="fw-mediumbold title_status">New</span>
+                    <span class="fw-light">Row</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="small">Create a new row using this form, make sure you fill them all</p>
+                <div class="row">
+                    <input id="id" type="hidden">
+
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            <label>Name</label>
+                            <input id="name" type="text" class="form-control" name="name"
+                                   placeholder="fill name">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer no-bd">
+                <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //add click
+        $(document).on('click', '.page-genre .genre_add_btn', function () {
+            let modal_genre = $('#genre_create_modal');
+            changeModalGenre();
+            modal_genre.modal('show');
+        });
+
+        //edit click
+        $(document).on('click', '.genre_list_table .item_action button.edit', function () {
+            var item_id = $(this).attr('data-id');
+
+
+            if(item_id) {
+                let modal_genre = $('#genre_create_modal');
+                //clear data in modal
+                changeModalGenre(true);
+
+                //update id value
+                modal_genre.find('input#id').val(item_id);
+                modal_genre.modal('show');
+
+                getDataGenre(item_id);
+            }
+        });
+
+        $(document).on('click', '.genre_list_table .item_action button.delete', function () {
+            var item_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '/admin/genre/delete',
+                type: 'POST',
+                dataType : 'json',
+                data: {
+                    _id :item_id
+                }
+            })
+                .done(function (data) {
+                    window.location.href = '/admin/genre';
+
+                })
+
+        });
+
+
+        //insert/update genre
+        $(document).on('click', '#genre_create_modal button#addRowButton', function () {
+            let modal_genre = $('#genre_create_modal');
+            var item_id = modal_genre.find('input#id').val(),
+                is_update = item_id ? true : false;
+
+            //create
+            if(!is_update) {
+                //create genre item
+                var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+                // $('#add-row').dataTable().fnAddData([
+                //     $("#name").val(),
+                //     $("#country").val(),
+                //     $("#logo").val(),
+                //     action
+                // ]);
+                $.ajax({
+                    url: '/admin/genre/insert',
+                    type: 'POST',
+                    data: {
+                        name: $("#genre_create_modal #name").val()
+                    }
+                }).done(function (data) {
+                    console.log(data)
+                    $('#genre_create_modal #addRowModal').modal('hide');
+                    let genre_template = $('.page-genre .template');
+
+                    let genre_row = genre_template.find('table tr').clone();
+                    genre_row.find('.item_name').html(data.name);
+                    genre_row.find('.item_action button').attr('data-id', data._id);
+
+                    $('.page-genre .genre_list_table tbody').prepend(genre_row);
+                    modal_genre.modal('hide');
+                });
+
+            } else {
+                //update
+                $.ajax({
+                    url: '/admin/genre/update',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: item_id,
+                        name: modal_genre.find('input#name').val(),
+                    }
+                })
+                    .done(function (data) {
+                        modal_genre.modal('hide');
+
+                        //update to view
+                        let item_update_box = $('.genre_list_table tr .edit[data-id="' + item_id + '"]').parents('tr');
+                        item_update_box.find('.item_name').html(data.name);
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                        modal_genre.modal('hide');
+                    });
+            }
+        });
+
+
+        //call data by id
+        function getDataGenre(id) {
+            if(id) {
+                $.ajax({
+                    url: '/admin/genre/getItem',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: id
+                    }
+                })
+                    .done(function (data) {
+                        let modal_genre = $('#genre_create_modal');
+                        if(data.name) {
+                            modal_genre.find('input#name').val(data.name);
+                        }
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                    });
+            }
+        }
+
+        //change status modal insert/update genre
+        function changeModalGenre(is_update) {
+            let modal_genre = $('#genre_create_modal'),
+                label = 'Add';
+            modal_genre.find('input').val('');
+
+            if(is_update) {
+                label = 'Update';
+            }
+            modal_genre.find('.title_status, #addRowButton').html(label);
+        }
+    });
+</script>

@@ -18,6 +18,7 @@ var adminIndexRouter = require('./routes/admin/index');
 var adminCompanyRouter = require('./routes/admin/company');
 var adminCountryRouter = require('./routes/admin/country');
 var castRouter = require('./routes/admin/cast');
+var genreRouter = require('./routes/admin/genre');
 
 var app = express();
 
@@ -43,6 +44,9 @@ app.use('/admin', adminIndexRouter);
 app.use('/admin/company', adminCompanyRouter);
 app.use('/admin/country', adminCountryRouter);
 app.use('/admin/cast', castRouter);
+app.use('/admin/genre', genreRouter);
+
+
 
 
 // catch 404 and forward to error handler

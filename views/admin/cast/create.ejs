@@ -109,7 +109,7 @@
         //add click
         $(document).on('click', '.page-cast .cast_add_btn', function () {
             let modal_cast = $('#cast_create_modal');
-            changeModalcast();
+            changeModalCast();
             modal_cast.modal('show');
         });
 
@@ -121,13 +121,13 @@
             if(item_id) {
                 let modal_cast = $('#cast_create_modal');
                 //clear data in modal
-                changeModalcast(true);
+                changeModalCast(true);
 
                 //update id value
                 modal_cast.find('input#id').val(item_id);
                 modal_cast.modal('show');
 
-                getDatacast(item_id);
+                getDataCast(item_id);
             }
         });
 
@@ -213,17 +213,17 @@
                     dataType : 'json',
                     data: {
                         id: item_id,
-                        name: modal_cast.find("input#name").val(),
-                        adult: modal_cast.find("input#adult").val(),
-                        gender: modal_cast.find("input#gender").val(),
-                        known_for_department: modal_cast.find("input#known_for_department").val(),
-                        original_name: modal_cast.find("input#original_name").val(),
-                        popularity: modal_cast.find("input#popularity").val(),
-                        profile_path: modal_cast.find("input#profile_path").val(),
-                        cast_id: modal_cast.find("input#cast_id").val(),
-                        character: modal_cast.find("input#character").val(),
-                        credit_id: modal_cast.find("input#credit_id").val(),
-                        order: modal_cast.find("input#order").val()
+                        name: modal_cast.find('input#name').val(),
+                        adult: modal_cast.find('input#adult').val(),
+                        gender: modal_cast.find('input#gender').val(),
+                        known_for_department: modal_cast.find('input#known_for_department').val(),
+                        original_name: modal_cast.find('input#original_name').val(),
+                        popularity: modal_cast.find('input#popularity').val(),
+                        profile_path: modal_cast.find('input#profile_path').val(),
+                        cast_id: modal_cast.find('input#cast_id').val(),
+                        character: modal_cast.find('input#character').val(),
+                        credit_id: modal_cast.find('input#credit_id').val(),
+                        order: modal_cast.find('input#order').val()
                     }
                 })
                     .done(function (data) {
@@ -253,7 +253,7 @@
 
 
         //call data by id
-        function getDatacast(id) {
+        function getDataCast(id) {
             if(id) {
                 $.ajax({
                     url: '/admin/cast/getItem',
@@ -306,7 +306,7 @@
         }
 
         //change status modal insert/update cast
-        function changeModalcast(is_update) {
+        function changeModalCast(is_update) {
             let modal_cast = $('#cast_create_modal'),
                 label = 'Add';
             modal_cast.find('input').val('');
