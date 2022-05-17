@@ -47,7 +47,7 @@ app.use('/ts', tsRouter);
 app.use('/movie', movieRouter);
 app.use('/admin', adminIndexRouter);
 app.use('/admin/company', adminCompanyRouter);
-app.use('/admin/country', adminCountryRouter);
+app.use('/admin/country', adminCountryRouter); 
 app.use('/admin/cast', castRouter);
 app.use('/admin/spokenlangue', spokenRouter);
 app.use('/admin/video', videoRouter);

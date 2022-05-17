@@ -15,6 +15,7 @@ router.post('/list', function (req, res, next) {
     try {
         var data = company.find().exec()
             .then(data =>{
+                console.log(data);
                 res.status(200).send(data);
             });
 
