@@ -1,0 +1,256 @@
+<!-- Modal -->
+<div class="modal fade" id="video_create_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header no-bd">
+                <h5 class="modal-title">
+					<span class="fw-mediumbold title_status">New</span>
+                    <span class="fw-light">Row</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="small">Create a new row using this form, make sure you fill them all</p>
+                <div class="row">
+                    <input id="id" type="hidden">
+                    
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            <label>Name</label>
+                            <input id="name" type="text" class="form-control" name="name"
+                                   placeholder="fill name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <select id="iso_3166_1"  name="iso_3166_1">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <select id="iso_639_1"  name="iso_639_1">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <label>key</label>
+                            <input id="key" type="text" class="form-control" name="key"
+                                   placeholder="fill key">
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <label>site</label>
+                            <input id="site" type="text" class="form-control" name="site"
+                                   placeholder="fill site">
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <label>type</label>
+                            <input id="type" type="text" class="form-control" name="type"
+                                   placeholder="fill type">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer no-bd">
+                <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //add click
+        $(document).on('click', '.page-video .video_add_btn', function () {
+            let modal = $('#video_create_modal');
+            changeModal();
+            modal.modal('show');
+        });
+
+        //edit click
+        $(document).on('click', '.video_list_table .item_action button.edit', function () {
+            var item_id = $(this).attr('data-id');
+
+
+            if(item_id) {
+                let modal = $('#video_create_modal');
+                //clear data in modal
+                changeModal(true);
+
+                //update id value
+                modal.find('input#id').val(item_id);
+                modal.modal('show');
+
+                getData(item_id);
+            }
+        });
+
+        $(document).on('click', '.video_list_table .item_action button.delete', function () {
+            var item_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '/admin/video/delete',
+                type: 'POST',
+                dataType : 'json',
+                data: {
+                   _id :item_id
+                }
+            })
+                .done(function (data) {
+                     window.location.href = '/admin/video';
+                })
+
+        });
+
+
+        //insert/update company
+        $(document).on('click', '#video_create_modal button#addRowButton', function () {
+            let modal = $('#video_create_modal');
+            var item_id = modal.find('input#id').val(),
+                is_update = item_id ? true : false;
+
+            //create
+            if(!is_update) {
+                //create  item
+                var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+                // $('#add-row').dataTable().fnAddData([
+                //     $("#name").val(),
+                //     $("#country").val(),
+                //     $("#logo").val(),
+                //     action
+                // ]);
+                $.ajax({
+                    url: '/admin/video/insert',
+                    type: 'POST',
+                    data: {
+                        name: $("#video_create_modal #name").val(),
+                        iso_3166_1: $("#video_create_modal #iso_3166_1").val(),
+                        iso_639_1: $("#video_create_modal #iso_639_1").val(),
+                        key: $("#video_create_modal #key").val(),
+                        site: $("#video_create_modal #site").val(),
+                        type: $("#video_create_modal #type").val()
+                    }
+                }).done(function (data) {
+                    console.log(data)
+                    $('#video_create_modal #addRowModal').modal('hide');
+                    let template = $('.page-video .template');
+
+                    let row = template.find('table tr').clone();
+                    row.find('.item_name').html(data.name);
+                    row.find('.item_iso_3166_1').html(data.iso_3166_1);
+                    row.find('.item_iso_639_1').html(data.iso_639_1);
+                    row.find('.item_key').html(data.key);
+                    row.find('.item_site').html(data.site);
+                    row.find('.item_type').html(data.type);
+                    row.find('.item_action button').attr('data-id', data._id);
+
+                    $('.page-video .video_list_table tbody').prepend(row);
+                    modal.modal('hide');
+                });
+
+            } else {
+                //update
+                $.ajax({
+                    url: '/admin/video/update',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: item_id,
+                        name: modal.find('input#name').val(),
+                        iso_3166_1: modal.find('input#iso_3166_1').val(),
+                        iso_639_1: modal.find('input#iso_639_1').val(),
+                        key: modal.find('input#key').val(),
+                        site: modal.find('input#site').val(),
+                        type: modal.find('input#type').val(),
+                    }
+                })
+                    .done(function (data) {
+                        modal.modal('hide');
+
+                        //update to view
+                        let item_update_box = $('.video_list_table tr .edit[data-id="' + item_id + '"]').parents('tr');
+                        item_update_box.find('.item_name').html(data.name);
+                        item_update_box.find('.item_iso_3166_1').html(data.iso_3166_1);
+                        item_update_box.find('.item_iso_639_1').html(data.iso_639_1);
+                        item_update_box.find('.item_key').html(data.key);
+                        item_update_box.find('.item_site').html(data.site);
+                        item_update_box.find('.item_type').html(data.type);
+                        // item_update_box.find('.item_img img').attr('src', data.logo_path);
+
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                        modal.modal('hide');
+                    });
+            }
+        });
+
+
+        //call data by id
+        function getData(id) {
+            if(id) {
+                $.ajax({
+                    url: '/admin/video/getItem',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: id
+                    }
+                })
+                    .done(function (data) {
+                        let modal = $('#video_create_modal');
+                        if(data.name) {
+                            modal.find('input#name').val(data.name);
+                        }
+                        if(data.iso_3166_1) {
+                            var select =  modal.find('#iso_3166_1')
+                            select.val(data.iso_3166_1).change();
+                        }
+                        if(data.iso_639_1) {
+
+                            // modal.find('input#iso_639_1').val(data.iso_639_1);
+                            var select =  modal.find('#iso_639_1')
+                            select.val(data.iso_639_1).change();
+                        }
+                        if(data.key) {
+                            modal.find('input#key').val(data.key);
+                        }
+                        if(data.site) {
+                            modal.find('input#site').val(data.site);
+                        }
+                        if(data.type) {
+                            modal.find('input#type').val(data.type);
+                        }
+
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                    });
+            }
+        }
+
+        //change status modal insert/update company
+        function changeModal(is_update) {
+            let modal = $('#video_create_modal'),
+                label = 'Add';
+            modal.find('input').val('');
+
+            if(is_update) {
+                label = 'Update';
+            }
+            modal.find('.title_status, #addRowButton').html(label);
+        }
+    });
+</script>

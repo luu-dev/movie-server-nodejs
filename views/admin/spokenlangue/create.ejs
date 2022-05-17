@@ -1,0 +1,197 @@
+<!-- Modal -->
+<div class="modal fade" id="spokenlangue_create_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header no-bd">
+                <h5 class="modal-title">
+					<span class="fw-mediumbold title_status">New</span>
+                    <span class="fw-light">Row</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="small">Create a new row using this form, make sure you fill them all</p>
+                <div class="row">
+                    <input id="id" type="hidden">
+                    
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            <label>Name</label>
+                            <input id="name" type="text" class="form-control" name="name"
+                                   placeholder="fill name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <label>iso_639_1</label>
+                            <input id="iso_3166_1" type="text" class="form-control" name="iso_639_1"
+                                   placeholder="fill iso_639_1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer no-bd">
+                <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //add click
+        $(document).on('click', '.page-spokenlangue .spokenlangue_add_btn', function () {
+            let modal = $('#spokenlangue_create_modal');
+            changeModal();
+            modal.modal('show');
+        });
+
+        //edit click
+        $(document).on('click', '.spokenlangue_list_table .item_action button.edit', function () {
+            var item_id = $(this).attr('data-id');
+
+
+            if(item_id) {
+                let modal = $('#spokenlangue_create_modal');
+                //clear data in modal
+                changeModal(true);
+
+                //update id value
+                modal.find('input#id').val(item_id);
+                modal.modal('show');
+
+                getData(item_id);
+            }
+        });
+
+        $(document).on('click', '.spokenlangue_list_table .item_action button.delete', function () {
+            var item_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '/admin/spokenlangue/delete',
+                type: 'POST',
+                dataType : 'json',
+                data: {
+                   _id :item_id
+                }
+            })
+                .done(function (data) {
+                     window.location.href = '/admin/spokenlangue';
+                })
+
+        });
+
+
+        //insert/update company
+        $(document).on('click', '#spokenlangue_create_modal button#addRowButton', function () {
+            let modal = $('#spokenlangue_create_modal');
+            var item_id = modal.find('input#id').val(),
+                is_update = item_id ? true : false;
+
+            //create
+            if(!is_update) {
+                //create  item
+                var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+                // $('#add-row').dataTable().fnAddData([
+                //     $("#name").val(),
+                //     $("#country").val(),
+                //     $("#logo").val(),
+                //     action
+                // ]);
+                $.ajax({
+                    url: '/admin/spokenlangue/insert',
+                    type: 'POST',
+                    data: {
+                        name: $("#spokenlangue_create_modal #name").val(),
+                        iso_3166_1: $("#spokenlangue_create_modal #iso_3166_1").val()
+
+
+                    }
+                }).done(function (data) {
+                    console.log(data)
+                    $('#spokenlangue_create_modal #addRowModal').modal('hide');
+                    let template = $('.page-spokenlangue .template');
+
+                    let row = template.find('table tr').clone();
+                    row.find('.item_name').html(data.name);
+                    row.find('.item_iso_639_1').html(data.iso_639_1);
+                    row.find('.item_action button').attr('data-id', data._id);
+
+                    $('.page-spokenlangue .spokenlangue_list_table tbody').prepend(row);
+                    modal.modal('hide');
+                });
+
+            } else {
+                //update
+                $.ajax({
+                    url: '/admin/spokenlangue/update',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: item_id,
+                        name: modal.find('input#name').val(),
+                        iso_639_1: modal.find('input#iso_639_1').val(),
+                    }
+                })
+                    .done(function (data) {
+                        modal.modal('hide');
+
+                        //update to view
+                        let item_update_box = $('.spokenlangue_list_table tr .edit[data-id="' + item_id + '"]').parents('tr');
+                        item_update_box.find('.item_name').html(data.name);
+                        item_update_box.find('.item_iso_639_1').html(data.iso_639_1);
+                        // item_update_box.find('.item_img img').attr('src', data.logo_path);
+
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                        modal.modal('hide');
+                    });
+            }
+        });
+
+
+        //call data by id
+        function getData(id) {
+            if(id) {
+                $.ajax({
+                    url: '/admin/spokenlangue/getItem',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: id
+                    }
+                })
+                    .done(function (data) {
+                        let modal = $('#spokenlangue_create_modal');
+                        if(data.name) {
+                            modal.find('input#name').val(data.name);
+                        }
+                        if(data.iso_639_1) {
+                            modal.find('input#iso_639_1').val(data.iso_639_1);
+                        }
+
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                    });
+            }
+        }
+
+        //change status modal insert/update company
+        function changeModal(is_update) {
+            let modal = $('#spokenlangue_create_modal'),
+                label = 'Add';
+            modal.find('input').val('');
+
+            if(is_update) {
+                label = 'Update';
+            }
+            modal.find('.title_status, #addRowButton').html(label);
+        }
+    });
+</script>

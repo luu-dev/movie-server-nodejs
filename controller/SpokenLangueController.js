@@ -1,31 +1,31 @@
 const model = require("../model");
-const country = model.model('production_country');
+const spokenlangue = model.model('spokenlangue');
 module.exports = {
-    getList: async () => {
+    getList : async ()=>{
         try {
-            var data = await country.find().exec();
+            var data = await spokenlangue.find().exec();
             return data;
 
-        } catch (e) {
+        }catch (e) {
             return false;
         }
     },
 
     getById: async (id) => {
         try {
-            return await country.findById(id);
+            return await spokenlangue.findById(id);
 
         } catch (e) {
-            console.log('country getById error:', e.message);
+            console.log('spokenlangue getById error:', e.message);
             return false;
         }
     },
     insert: async (data) => {
         try {
-            return await country.create(data);
+            return await spokenlangue.create(data);
 
         } catch (e) {
-            console.log('company insert error:', e.message);
+            console.log('spokenlangue insert error:', e.message);
             return false;
         }
     },
@@ -33,24 +33,23 @@ module.exports = {
 
     update: async (id, data) => {
         try {
-            let item = await country.findById(id);
-            item.iso_3166_1 = data.iso_3166_1;
+            let item = await spokenlangue.findById(id);
+            item.iso_639_1 = data.iso_639_1;
             item.name = data.name;
 
             return await item.save();
 
         } catch (e) {
-            console.log('country update error:', e.message);
+            console.log('spokenlangue update error:', e.message);
             return false;
         }
     },
 
     delete: async (id) => {
         try {
-            return await country.findByIdAndRemove(id);
+            return await spokenlangue.findByIdAndRemove(id);
         } catch (e) {
             return false
         }
-    },
-
+    }
 };

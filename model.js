@@ -3,11 +3,11 @@ var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.set('useFindAndModify', false);
 
-mongoose.connect(config.get('mongo_db') , { useNewUrlParser : true, useUnifiedTopology: true });
+mongoose.connect(config.get('mongo_db'), {useNewUrlParser: true, useUnifiedTopology: true});
 
 var userSchema = new Schema({
-    name : String,
-    password : String,
+    name: String,
+    password: String,
 });
 var castSchema = new Schema({
     adult: Boolean,
@@ -18,14 +18,14 @@ var castSchema = new Schema({
     original_name: String,
     popularity: Number,
     profile_path: String,
-    cast_id: Number ,
+    cast_id: Number,
     character: String,
     credit_id: String,
     order: Number
 });
 var genreSchema = new Schema({
     id: Number,
-    name : String,
+    name: String,
 });
 var productionCompanySchema = new Schema({
     id: Number,
@@ -49,17 +49,17 @@ var movieSchema = new Schema({
     video: Boolean,
     vote_average: Number,
     vote_count: Number,
-    type:Number,
-    status:String,
-    spoken_languages_id:Object,
-    runtime :Number,
-    production_countries_id:Object,
-    production_companies_id:Object,
-    casts_id:Object,
-    videos_id:Object
+    type: Number,
+    status: String,
+    spoken_languages_id: Object,
+    runtime: Number,
+    production_countries_id: Object,
+    production_companies_id: Object,
+    casts_id: Object,
+    videos_id: Object
 });
 var production_countrySchema = new Schema({
-    iso_3166_1:String,
+    iso_3166_1: String,
     name: String
 });
 var spokenlangueSchema = new Schema({
@@ -78,6 +78,29 @@ var videoSchema = new Schema({
 });
 
 
+var commentsSchema = new Schema({
+    comment: String,
+    user_id: String,
+    movie_id: String,
+    created_at: String,
+});
+
+var reviewsSchema = new Schema({
+    content: String,
+    movie_id: String,
+    created_at: String
+});
+
+
+var notificationsSchema = new Schema({
+    content: String,
+    link: String,
+    status: String,
+    created_at: String,
+    movie_id: String
+});
+
+
 
 //Export model
 module.exports = mongoose.model('user', userSchema);
@@ -88,8 +111,9 @@ module.exports = mongoose.model('movie', movieSchema);
 module.exports = mongoose.model('production_country', production_countrySchema);
 module.exports = mongoose.model('spokenlangue', spokenlangueSchema);
 module.exports = mongoose.model('video', videoSchema);
-
-
+module.exports = mongoose.model('comment', commentsSchema);
+module.exports = mongoose.model('review', reviewsSchema);
+module.exports = mongoose.model('notification', notificationsSchema);
 
 
 //create object to insert,update,delete
