@@ -23,6 +23,7 @@ var videoRouter = require('./routes/admin/video');
 var commentRouter = require('./routes/admin/comment');
 var reviewRouter = require('./routes/admin/review');
 var notificationRouter = require('./routes/admin/notification');
+var genreRouter = require('./routes/admin/genre');
 
 var app = express();
 
@@ -53,6 +54,9 @@ app.use('/admin/video', videoRouter);
 app.use('/admin/comment', commentRouter);
 app.use('/admin/review', reviewRouter);
 app.use('/admin/notification', notificationRouter);
+app.use('/admin/genre', genreRouter);
+
+
 
 
 // catch 404 and forward to error handler

@@ -1,8 +1,8 @@
-<div class="main-panel page-cast" >
+<div class="main-panel page-genre" >
     <div class="content">
         <div class="page-inner">
             <div class="page-header">
-                <h4 class="page-title">Cast</h4>
+                <h4 class="page-title">Genre</h4>
                 <ul class="breadcrumbs">
                     <li class="nav-home">
                         <a href="#">
@@ -29,7 +29,7 @@
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <h4 class="card-title">Add Row</h4>
-                                <button class="btn btn-primary btn-round ml-auto cast_add_btn">
+                                <button class="btn btn-primary btn-round ml-auto genre_add_btn">
                                     <i class="fa fa-plus"></i>
                                     Add Row
                                 </button>
@@ -37,32 +37,16 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display table table-striped table-hover cast_list_table">
+                                <table class="display table table-striped table-hover genre_list_table">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Adult</th>
-                                        <th>Gender</th>
-                                        <th>Known For Department</th>
-                                        <th>Original Name</th>
-                                        <th>Popularity</th>
-                                        <th>Profile_path</th>
-                                        <th>Character</th>
-                                        <th>Order</th>
                                         <th style="width: 10%">Action</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Adult</th>
-                                        <th>Gender</th>
-                                        <th>Known For Department</th>
-                                        <th>Original Name</th>
-                                        <th>Popularity</th>
-                                        <th>Profile Path</th>
-                                        <th>Character</th>
-                                        <th>Order</th>
                                         <th>Action</th>
                                     </tr>
                                     </tfoot>
@@ -85,16 +69,8 @@
         <table>
             <tr>
                 <td class="item_name"></td>
-                <td class="item_adult"></td>
-                <td class="item_gender"></td>
-                <td class="item_known-for-department"></td>
-                <td class="item_original-name"></td>
-                <td class="item_popularity"></td>
-                <td class="item_profile-path"></td>
-                <td class="item_card-id"></td>
-                <td class="item_character"></td>
-                <td class="item_credit-id"></td>
-                <td class="item_order"></td>
+                <td class="item_country"></td>
+                <td class="item_img"><img src="" alt="" /></td>
                 <td class="item_action">
                     <div class="form-button-action">
                         <button type="button" data-toggle="tooltip" title=""
@@ -116,33 +92,23 @@
 
 <script>
     $(document).ready(function () {
-        //init js: call cast list when load page
-        showCast();
+        //init js: call genre list when load page
+        showGenre();
 
-        function showCast() {
+        function showGenre() {
             $.ajax({
-                url: '/admin/cast/list',
+                url: '/admin/genre/list',
                 type: 'POST',
                 data: {}
             })
                 .done(function (data) {
                     //append tyo view
-                    let cast_template = $('.page-cast .template');
+                    let genre_template = $('.page-genre .template');
                     $(data).each(function (i, e) {
-                        let cast_row = cast_template.find('table tr').clone();
-                        cast_row.find('.item_name').html(e.name);
-                        cast_row.find('.item_adult').html(e.adult);
-                        cast_row.find('.item_gender').html(e.gender);
-                        cast_row.find('.item_known_for_department').html(e.known_for_department);
-                        cast_row.find('.item_original_name').html(e.original_name);
-                        cast_row.find('.item_popularity').html(e.popularity);
-                        cast_row.find('.item_profile_path').html(e.profile_path);
-                        cast_row.find('.item_cast_id').html(e.cast_id);
-                        cast_row.find('.item_character').html(e.character);
-                        cast_row.find('.item_credit_id').html(e.credit_id);
-                        cast_row.find('.item_order').html(e.order);
-                        cast_row.find('.item_action button').attr('data-id', e._id);
-                        $('.page-cast .cast_list_table tbody').append(cast_row);
+                        let genre_row = genre_template.find('table tr').clone();
+                        genre_row.find('.item_name').html(e.name);
+                        genre_row.find('.item_action button').attr('data-id', e._id);
+                        $('.page-genre .genre_list_table tbody').append(genre_row);
                     });
                 })
                 .fail(function (error) {
