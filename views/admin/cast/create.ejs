@@ -13,23 +13,11 @@
             </div>
             <div class="modal-body">
                 <p class="small">Create a new row using this form, make sure you fill them all</p>
-                <div class="row">
-                    <input id="id" type="hidden">
+                <form id="cast_create_form" enctype="multipart/form-data" method="post">
 
-                    <div class="col-sm-12">
-                        <div class="form-group form-group-default">
-                            <label>Name</label>
-                            <input id="name" type="text" class="form-control" name="name"
-                                   placeholder="fill name">
-                        </div>
-                    </div>
-                    <div class="col-md-6 pr-0">
-                        <div class="form-group form-group-default">
-                            <label>Adult</label>
-                            <input id="adult" type="text" class="form-control" name="adult"
-                                   placeholder="Adult or not">
-                        </div>
-                    </div>
+                <div class="row">
+                    <input id="id" type="hidden" name="id">
+
                     <div class="col-md-6">
                         <div class="form-group form-group-default">
                             <label>Gender</label>
@@ -61,17 +49,12 @@
                     <div class="col-md-6">
                         <div class="form-group form-group-default">
                             <label>Profile Path</label>
-                            <input id="profile_path" type="text" class="form-control" name="profile_path"
-                                   placeholder="fill profile_path">
+
+                            <input type="file" name="img" id="img"/>
+
                         </div>
                     </div>
-                    <div class="col-md-6 pr-0">
-                        <div class="form-group form-group-default">
-                            <label>Cast Id</label>
-                            <input id="cast_id" type="text" class="form-control" name="cast_id"
-                                   placeholder="fill cast_id">
-                        </div>
-                    </div>
+
                     <div class="col-md-6">
                         <div class="form-group form-group-default">
                             <label>Character</label>
@@ -79,24 +62,12 @@
                                    placeholder="fill character">
                         </div>
                     </div>
-                    <div class="col-md-6 pr-0">
-                        <div class="form-group form-group-default">
-                            <label>Credit ID</label>
-                            <input id="credit_id" type="text" class="form-control" name="credit_id"
-                                   placeholder="fill credit_id">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group form-group-default">
-                            <label>Order</label>
-                            <input id="order" type="text" class="form-control" name="order"
-                                   placeholder="fill order">
-                        </div>
-                    </div>
+                    <button type="submit" id="btnAđd" value="Add" class="btn btn-primary mb-2 ">Add</button>
+                    <button type="submit" id="btnUpdate"value="Update" class="btn btn-primary mb-2">Update</button>
                 </div>
+                </form>
             </div>
             <div class="modal-footer no-bd">
-                <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close
                 </button>
             </div>
@@ -108,6 +79,10 @@
     $(document).ready(function () {
         //add click
         $(document).on('click', '.page-cast .cast_add_btn', function () {
+
+            $("#cast_create_modal #cast_create_form").attr('action', 'http://localhost:3031/admin/cast/insert');
+            $("#cast_create_modal #btnUpdate").hide()
+            $("#cast_create_modal #btnAđd").show()
             let modal_cast = $('#cast_create_modal');
             changeModalCast();
             modal_cast.modal('show');
@@ -116,7 +91,9 @@
         //edit click
         $(document).on('click', '.cast_list_table .item_action button.edit', function () {
             var item_id = $(this).attr('data-id');
-
+            $("#cast_create_modal #cast_create_form").attr('action', 'http://localhost:3031/admin/cast/update');
+            $("#cast_create_modal #btnAđd").hide()
+            $("#cast_create_modal #btnUpdate").show()
 
             if(item_id) {
                 let modal_cast = $('#cast_create_modal');
@@ -158,96 +135,10 @@
 
             //create
             if(!is_update) {
-                //create cast item
-                var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-                // $('#add-row').dataTable().fnAddData([
-                //     $("#name").val(),
-                //     $("#country").val(),
-                //     $("#logo").val(),
-                //     action
-                // ]);
-                $.ajax({
-                    url: '/admin/cast/insert',
-                    type: 'POST',
-                    data: {
-                        name: $("#cast_create_modal #name").val(),
-                        adult: $("#cast_create_modal #adult").val(),
-                        gender: $("#cast_create_modal #gender").val(),
-                        known_for_department: $("#cast_create_modal #known_for_department").val(),
-                        original_name: $("#cast_create_modal #original_name").val(),
-                        popularity: $("#cast_create_modal #popularity").val(),
-                        profile_path: $("#cast_create_modal #profile_path").val(),
-                        cast_id: $("#cast_create_modal #cast_id").val(),
-                        character: $("#cast_create_modal #character").val(),
-                        credit_id: $("#cast_create_modal #credit_id").val(),
-                        order: $("#cast_create_modal #order").val()
-                    }
-                }).done(function (data) {
-                    console.log(data)
-                    $('#cast_create_modal #addRowModal').modal('hide');
-                    let cast_template = $('.page-cast .template');
 
-                    let cast_row = cast_template.find('table tr').clone();
-                    cast_row.find('.item_name').html(data.name);
-                    cast_row.find('.item_adult').html(data.adult);
-                    cast_row.find('.item_gender').html(data.gender);
-                    cast_row.find('.item_known-for-department').html(data.known_for_department);
-                    cast_row.find('.item_original-name').html(data.original_name);
-                    cast_row.find('.item_popularity').html(data.popularity);
-                    cast_row.find('.item_profile-path').html(data.profile_path);
-                    cast_row.find('.item_cast-id').html(data.cast_id);
-                    cast_row.find('.item_character').html(data.character);
-                    cast_row.find('.item_credit-id').html(data.credit_id);
-                    cast_row.find('.item_order').html(data.order);
-                    cast_row.find('.item_action button').attr('data-id', data._id);
-
-                    $('.page-cast .cast_list_table tbody').prepend(cast_row);
-                    modal_cast.modal('hide');
-                });
 
             } else {
-                //update
-                $.ajax({
-                    url: '/admin/cast/update',
-                    type: 'POST',
-                    dataType : 'json',
-                    data: {
-                        id: item_id,
-                        name: modal_cast.find('input#name').val(),
-                        adult: modal_cast.find('input#adult').val(),
-                        gender: modal_cast.find('input#gender').val(),
-                        known_for_department: modal_cast.find('input#known_for_department').val(),
-                        original_name: modal_cast.find('input#original_name').val(),
-                        popularity: modal_cast.find('input#popularity').val(),
-                        profile_path: modal_cast.find('input#profile_path').val(),
-                        cast_id: modal_cast.find('input#cast_id').val(),
-                        character: modal_cast.find('input#character').val(),
-                        credit_id: modal_cast.find('input#credit_id').val(),
-                        order: modal_cast.find('input#order').val()
-                    }
-                })
-                    .done(function (data) {
-                        modal_cast.modal('hide');
 
-                        //update to view
-                        let item_update_box = $('.cast_list_table tr .edit[data-id="' + item_id + '"]').parents('tr');
-                        item_update_box.find('.item_name').html(data.name);
-                        item_update_box.find('.item_adult').html(data.adult);
-                        item_update_box.find('.item_gender').html(data.gender);
-                        item_update_box.find('.item_known-for-department').html(data.known_for_department);
-                        item_update_box.find('.item_original-name').html(data.original_name);
-                        item_update_box.find('.item_popularity').html(data.popularity);
-                        item_update_box.find('.item_profile-path').html(data.profile_path);
-                        item_update_box.find('.item_cast-id').html(data.cast_id);
-                        item_update_box.find('.item_character').html(data.character);
-                        item_update_box.find('.item_credit-id').html(data.credit_id);
-                        item_update_box.find('.item_order').html(data.order);
-
-                    })
-                    .fail(function (error) {
-                        console.log('error:', error.message);
-                        modal_cast.modal('hide');
-                    });
             }
         });
 
@@ -265,12 +156,6 @@
                 })
                     .done(function (data) {
                         let modal_cast = $('#cast_create_modal');
-                        if(data.name) {
-                            modal_cast.find('input#name').val(data.name);
-                        }
-                        if(data.adult) {
-                            modal_cast.find('input#adult').val(data.adult);
-                        }
                         if(data.gender) {
                             modal_cast.find('input#gender').val(data.gender);
                         }
@@ -286,18 +171,11 @@
                         if(data.profile_path) {
                             modal_cast.find('input#profile-path').val(data.profile_path);
                         }
-                        if(data.cast_id) {
-                            modal_cast.find('input#cast-id').val(data.cast_id);
-                        }
+
                         if(data.character) {
                             modal_cast.find('input#character').val(data.character);
                         }
-                        if(data.credit_id) {
-                            modal_cast.find('input#credit-id').val(data.credit_id);
-                        }
-                        if(data.order) {
-                            modal_cast.find('input#order').val(data.order);
-                        }
+
                     })
                     .fail(function (error) {
                         console.log('error:', error.message);

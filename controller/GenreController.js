@@ -1,6 +1,15 @@
 const model = require("../model");
 const genre = model.model('genre');
 module.exports = {
+    getList: async () => {
+        try {
+            var data = await genre.find().exec();
+            return data;
+
+        } catch (e) {
+            return false;
+        }
+    },
     getById: async (id) => {
         try {
             return await genre.findById(id);

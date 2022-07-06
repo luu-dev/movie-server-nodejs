@@ -1,0 +1,616 @@
+<div class="main-panel page">
+    <div class="content">
+        <form>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputData">original_language</label>
+                    <select class="form-control" id="lstlanguages">
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputData">original_title</label>
+                    <input type="text" class="form-control" id="original_title" placeholder="input"
+                           value="<%= list.movie.original_title %>">
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputData">popularity</label>
+                    <input type="text" class="form-control" id="popularity" placeholder="input"
+                           value="<%= list.movie.popularity %>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputData">release_date</label>
+                    <input type="text" class="form-control" id="release_date" placeholder="input"
+                           value="<%= list.movie.release_date %>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputData">title</label>
+                    <input type="text" class="form-control" id="title" placeholder="input"
+                           value="<%= list.movie.title %>">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputData">vote_average</label>
+                    <input type="text" class="form-control" id="vote_average" placeholder="input"
+                           value="<%= list.movie.vote_average %>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputData">runtime</label>
+                    <input type="text" class="form-control" id="runtime" placeholder="input"
+                           value="<%= list.movie.runtime %>">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputData">type</label>
+                    <select class="form-control" id="type">
+                        <option value="0">up coming</option>
+                        <option value="1">popular</option>
+                        <option value="2">now_ playing</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputData">Genres</label>
+                    <select class="form-control" id="genres" multiple>
+
+                    </select>
+                    <button type="button" id="removeGenres" class="btn btn-primary mb-2">Remove</button>
+                    <select class="form-control" id="lstgenres">
+                    </select>
+                    <button type="button" id="addGenres" class="btn btn-primary mb-2">Add</button>
+
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="inputData">Casts</label>
+                    <select class="form-control" id="casts" multiple>
+
+                    </select>
+                    <button type="button" id="removeCasts" class="btn btn-primary mb-2">Remove</button>
+                    <select class="form-control" id="lstcasts">
+                    </select>
+                    <button type="button" id="addCasts" class="btn btn-primary mb-2">Add</button>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="inputData">Videos Trailer</label>
+                    <select class="form-control" id="videos" multiple>
+
+                    </select>
+                    <button type="button" id="removeVideos" class="btn btn-primary mb-2">Remove</button>
+                    <select class="form-control" id="lstvideos">
+                    </select>
+                    <button type="button" id="addVideos" class="btn btn-primary mb-2">Add</button>
+                </div>
+
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputData">Product Country</label>
+                    <select class="form-control" id="countrys" multiple>
+
+                    </select>
+                    <button type="button" id="removeCountrys" class="btn btn-primary mb-2">Remove</button>
+                    <select class="form-control" id="lstcountrys">
+                    </select>
+                    <button type="button" id="addCountrys" class="btn btn-primary mb-2">Add</button>
+
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="inputData">Product Company</label>
+                    <select class="form-control" id="companys" multiple>
+
+                    </select>
+                    <button type="button" id="removeCompanys" class="btn btn-primary mb-2">Remove</button>
+                    <select class="form-control" id="lstcompanys">
+                    </select>
+                    <button type="button" id="addCompanys" class="btn btn-primary mb-2">Add</button>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <form id="image_upload" method="post" action="" enctype="multipart/form-data">
+                        <label for="inputData">Upload backdrop and poster image</label>
+                        <input type="file" name="img" id="img" multiple="multiple"/>
+                        <button type="button" id="save" class="btn btn-success btn-sm">Save</button>
+                    </form>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <form id="file_upload" method="post" action="" enctype="multipart/form-data">
+
+                        <label for="inputData">Upload film</label>
+                        <input type="file" name="film" id="film"/>
+                        <button type="button" id="saveFilm" class="btn btn-success btn-sm">Save</button>
+                    </form>
+                </div>
+            </div>
+            <div class="form-row" id="showimg">
+                <div class="form-group col-md-3">
+                    <label for="inputData">backdrop image</label>
+
+                    <img src="/images/<%= list.movie.backdrop_path %>" width="300" height="300"/>
+
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputData">poster image</label>
+                    <img src="/images/<%= list.movie.poster_path %>" width="300" height="300"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputData">overview</label>
+                <textarea type="text" class="form-control" id="overview"
+                          placeholder="input"><%= list.movie.overview %></textarea>
+            </div>
+
+
+            <button type="button" class="btn btn-outline-primary" id="reset">Reset</button>
+            <button type="button" class="btn btn-outline-secondary" id="insert">Insert</button>
+            <button type="button" class="btn btn-outline-success" id="update">Update</button>
+            <button type="button" class="btn btn-outline-warning" id="delete">Delete</button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('input').attr('readonly', false);
+        $('.page .content').css('marginLeft', '10px');
+        let modal = $('.page');
+
+        var backdrop = ""
+        var poster = ""
+        let _genresId = "<%= list.movie.genre_ids %>"
+        let genresId = _genresId.split(",");
+
+        <% list.genres.forEach(function (item) { %>
+        var idd = '<%= item._id %>'
+
+        var name = '<%= item.name %>'
+
+        modal.find('#lstgenres').append($('<option>', {
+            value: '<%= item._id %>',
+            text: '<%= item.name %>'
+        }));
+        genresId.forEach(function (id) {
+            if (id === idd) {
+                modal.find('#genres').append($('<option>', {
+                    value: idd,
+                    text: name
+                }));
+            }
+        })
+        <% }) %>
+
+        $("#addGenres").click(function () {
+            var name = modal.find('#lstgenres').find(":selected").text();
+            var value = modal.find('#lstgenres').find(":selected").val();
+            modal.find('#genres').append($('<option>', {
+                value: value,
+                text: name
+            }));
+        });
+
+        $("#removeGenres").click(function () {
+            let val = modal.find('#genres').find(":selected").val();
+            $('option[value="' + val + '"]').remove();
+        });
+
+        // cast
+
+        let _castsId = "<%= list.movie.casts_id %>"
+        let castsId = _castsId.split(",");
+        console.log(castsId)
+        <% list.casts.forEach(function (item) { %>
+        var idd = '<%= item._id %>'
+
+        var name = '<%= item.original_name %>'
+
+        modal.find('#lstcasts').append($('<option>', {
+            value: '<%= item._id %>',
+            text: '<%= item.original_name %>'
+        }));
+        castsId.forEach(function (id) {
+            if (id === idd) {
+                modal.find('#casts').append($('<option>', {
+                    value: idd,
+                    text: name
+                }));
+            }
+        })
+        <% }) %>
+
+        $("#addCasts").click(function () {
+            var name = modal.find('#lstcasts').find(":selected").text();
+            var value = modal.find('#lstcasts').find(":selected").val();
+            modal.find('#casts').append($('<option>', {
+                value: value,
+                text: name
+            }));
+        });
+
+        $("#removeCasts").click(function () {
+            let val = modal.find('#casts').find(":selected").val();
+            $('option[value="' + val + '"]').remove();
+        });
+
+
+        // video
+        let _videosId = "<%= list.movie.videos_id %>"
+        let videosId = _videosId.split(",");
+
+        <% list.videos.forEach(function (item) { %>
+        var idd = '<%= item._id %>'
+
+        var name = '<%= item.name %>'
+
+        modal.find('#lstvideos').append($('<option>', {
+            value: '<%= item._id %>',
+            text: '<%= item.name %>'
+        }));
+        videosId.forEach(function (id) {
+            if (id === idd) {
+                modal.find('#videos').append($('<option>', {
+                    value: idd,
+                    text: name
+                }));
+            }
+        })
+        <% }) %>
+
+        $("#addVideos").click(function () {
+            var name = modal.find('#lstvideos').find(":selected").text();
+            var value = modal.find('#lstvideos').find(":selected").val();
+            modal.find('#videos').append($('<option>', {
+                value: value,
+                text: name
+            }));
+        });
+
+        $("#removeVideos").click(function () {
+            let val = modal.find('#videos').find(":selected").val();
+            $('option[value="' + val + '"]').remove();
+        });
+
+
+        // company
+        let _companyId = "<%= list.movie.production_companies_id %>"
+        let companyId = _companyId.split(",");
+
+        <% list.companys.forEach(function (item) { %>
+        var idd = '<%= item._id %>'
+
+        var name = '<%= item.name %>'
+
+        modal.find('#lstcompanys').append($('<option>', {
+            value: '<%= item._id %>',
+            text: '<%= item.name %>'
+        }));
+        companyId.forEach(function (id) {
+            if (id === idd) {
+                modal.find('#companys').append($('<option>', {
+                    value: idd,
+                    text: name
+                }));
+            }
+        })
+        <% }) %>
+
+        $("#addCompanys").click(function () {
+            var name = modal.find('#lstcompanys').find(":selected").text();
+            var value = modal.find('#lstcompanys').find(":selected").val();
+            modal.find('#companys').append($('<option>', {
+                value: value,
+                text: name
+            }));
+        });
+
+        $("#removeCompanys").click(function () {
+            let val = modal.find('#companys').find(":selected").val();
+            $('option[value="' + val + '"]').remove();
+        });
+
+
+        // country
+        let _countryId = "<%= list.movie.production_countries_id %>"
+        let countryId = _countryId.split(",");
+
+        <% list.countrys.forEach(function (item) { %>
+        var idd = '<%= item._id %>'
+
+        var name = '<%= item.name %>'
+
+        modal.find('#lstcountrys').append($('<option>', {
+            value: '<%= item._id %>',
+            text: '<%= item.name %>'
+        }));
+        countryId.forEach(function (id) {
+            if (id === idd) {
+                modal.find('#countrys').append($('<option>', {
+                    value: idd,
+                    text: name
+                }));
+            }
+        })
+        <% }) %>
+
+        $("#addCountrys").click(function () {
+            var name = modal.find('#lstcountrys').find(":selected").text();
+            var value = modal.find('#lstcountrys').find(":selected").val();
+            modal.find('#countrys').append($('<option>', {
+                value: value,
+                text: name
+            }));
+        });
+
+        $("#removeCountrys").click(function () {
+            let val = modal.find('#companys').find(":selected").val();
+            $('option[value="' + val + '"]').remove();
+        });
+
+
+
+        <% list.spokens.forEach(function (item) { %>
+        modal.find('#lstlanguages').append($('<option>', {
+            value: '<%= item.iso_639_1 %>',
+            text: '<%= item.name %>'
+        }));
+        <% }) %>
+
+        modal.find('#lstlanguages').val("<%= list.movie.original_language %>").change();
+
+
+        $("#reset").click(function () {
+            $('#showimg').hide()
+            modal.find('#original_title').val("").change();
+            modal.find('#popularity').val("").change();
+            modal.find('#release_date').val("").change();
+            modal.find('#title').val("").change();
+            modal.find('#vote_average').val("").change();
+            modal.find('#runtime').val("").change();
+            $('#genres').empty()
+            $('#casts').empty()
+            $('#videos').empty()
+            $('#countrys').empty()
+            $('#companys').empty()
+
+
+        });
+
+        $('#saveFilm').click(function () {
+            var formData = new FormData()
+
+            var file = $('#film')[0].files[0]
+            var fileName = '<%= list.movie._id %>' + '.mp4'
+            formData.append("film", file, fileName)
+            console.log(formData)
+
+            // for (const file of img.files) {
+            //     formData.append("img", file)
+            // }
+            $.ajax({
+                url: "/ts/upload",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // dmmmmm
+                    var film_name = data.filename
+                    $.ajax({
+                        url: "/ts/comvertMp4ToTs",
+                        type: "post",
+                        data: {
+                            film_name: film_name
+                        },
+                        success: function (data) {
+                            alert("save film success")
+                        }
+                    });
+
+
+                },
+                error: function (data) {
+                    console.log('error:', data)
+                },
+
+            });
+        });
+
+
+        $('#save').click(function () {
+            var img = $('#img')[0]
+            const formData = new FormData()
+            for (const file of img.files) {
+                formData.append("img", file)
+            }
+            $.ajax({
+                url: "http://localhost:3031/admin/moviee/uploadmultiple",
+                type: "post",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data)
+
+                    backdrop = data[0].filename
+                    poster = data[1].filename
+                    console.log(data[0].filename + '_' + data[1].filename)
+                }
+
+            });
+        });
+        /* $('#image_upload').find('button').click( function(){
+                 alert("dfhfh")
+             // var img = $('#img')[0]
+             // const  formData = new FormData()
+             // for(const file of img.files){
+             //     formData.append("myFiles[]",file)
+             // }
+             // $.ajax({
+             //     url : "localhost:3031/admin/moviee/uploadmultiple",
+             //     type : "post",
+             //     data : new FormData(this),
+             //     contentType:false,
+             //     processData:false,
+             //     success: function(data){
+             //
+             //         alert(data);
+             //     }
+             //
+             // });
+         });*/
+        $("#insert").click(function () {
+            var genres = [];
+            var countrys = [];
+            var companys = [];
+            var casts = [];
+            var videos = [];
+            $("#genres").find('option').each(function () {
+                genres.push($(this).val());
+            });
+            $("#countrys").find('option').each(function () {
+                countrys.push($(this).val());
+            });
+            $("#companys").find('option').each(function () {
+                companys.push($(this).val());
+            });
+            $("#casts").find('option').each(function () {
+                casts.push($(this).val());
+            });
+            $("#videos").find('option').each(function () {
+                videos.push($(this).val());
+            });
+
+
+            $.ajax({
+                url: '/admin/moviee/insert',
+                type: 'POST',
+                data: {
+                    genre_ids: JSON.stringify(genres),
+                    original_language: $('#lstlanguages').find(":selected").val(),
+                    original_title: $('#original_title').val(),
+                    overview: $('#overview').val(),
+                    popularity: $('#popularity').val(),
+                    release_date: $('#release_date').val(),
+                    title: $('#title').val(),
+                    vote_average: $('#vote_average').val(),
+                    type: $('#type').find(":selected").val(),
+                    runtime: $('#runtime').val(),
+                    production_countries_id: JSON.stringify(countrys),
+                    production_companies_id: JSON.stringify(companys),
+                    casts_id: JSON.stringify(casts),
+                    videos_id: JSON.stringify(videos),
+                    backdrop_path: backdrop,
+                    poster_path: poster
+                }
+            }).done(function (data) {
+                console.log(data)
+            });
+        });
+
+        // $.ajax({
+        //     url: '/admin/moviee/insert',
+        //     type: 'POST',
+        //     data: {
+        //         genre_ids: JSON.stringify(genres),
+        //         original_language: $('#lstlanguages').find(":selected").val(),
+        //         original_title: $('#original_title').val(),
+        //         overview: $('#overview').val(),
+        //         popularity: $('#popularity').val(),
+        //         release_date: $('#release_date').val(),
+        //         title: $('#title').val(),
+        //         vote_average: $('#vote_average').val(),
+        //         type: $('#type').find(":selected").val(),
+        //         runtime: $('#runtime').val(),
+        //         production_countries_id: JSON.stringify(countrys),
+        //         production_companies_id: JSON.stringify(companys),
+        //         casts_id: JSON.stringify(casts),
+        //         videos_id: JSON.stringify(videos),
+        //         backdrop_path: backdrop,
+        //         poster_path: poster
+        //     }
+        // }).done(function (data) {
+        //     console.log(data)
+        // });
+    });
+
+
+    $("#update").click(function () {
+        var genres = [];
+        var countrys = [];
+        var companys = [];
+        var casts = [];
+        var videos = [];
+        $("#genres").find('option').each(function () {
+            genres.push($(this).val());
+        });
+        $("#countrys").find('option').each(function () {
+            countrys.push($(this).val());
+        });
+        $("#companys").find('option').each(function () {
+            companys.push($(this).val());
+        });
+        $("#casts").find('option').each(function () {
+            casts.push($(this).val());
+        });
+        $("#videos").find('option').each(function () {
+            videos.push($(this).val());
+        });
+
+        $.ajax({
+            url: '/admin/moviee/update',
+            type: 'POST',
+            data: {
+                id: '<%= list.movie._id %>',
+                genre_ids: genres,
+                original_language: $('#lstlanguages').find(":selected").val(),
+                original_title: $('#original_title').val(),
+                overview: $('#overview').val(),
+                popularity: $('#popularity').val(),
+                release_date: $('#release_date').val(),
+                title: $('#title').val(),
+                vote_average: $('#vote_average').val(),
+                type: $('#type').find(":selected").val(),
+                runtime: $('#runtime').val(),
+                production_countries_id: countrys,
+                production_companies_id: companys,
+                casts_id: casts,
+                videos_id: videos,
+                backdrop_path: backdrop,
+                poster_path: poster
+            }
+        }).done(function (data) {
+            console.log(data)
+        });
+    });
+
+    $("#delete").click(function () {
+        $.ajax({
+            url: '/admin/moviee/delete',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                _id: '<%= list.movie._id %>'
+            }
+        })
+            .done(function (data) {
+                window.location.href = '/admin/moviee';
+            })
+
+    });
+
+
+</script>

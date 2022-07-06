@@ -8,7 +8,9 @@ var config = require('config');
 var debug = require('debug');
 var model = require('./model');
 var session = require('express-session');
-
+const bodyParser= require('body-parser');
+let sseExpress = require('sse-express');
+const EventEmitter = require('events');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -24,6 +26,8 @@ var commentRouter = require('./routes/admin/comment');
 var reviewRouter = require('./routes/admin/review');
 var notificationRouter = require('./routes/admin/notification');
 var genreRouter = require('./routes/admin/genre');
+var movieeRouter = require('./routes/admin/moviee');
+// var socketRouter = require('./routes/admin/socket');
 
 var app = express();
 
@@ -38,6 +42,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 60000 }}));
 
@@ -55,9 +60,21 @@ app.use('/admin/comment', commentRouter);
 app.use('/admin/review', reviewRouter);
 app.use('/admin/notification', notificationRouter);
 app.use('/admin/genre', genreRouter);
+app.use('/admin/moviee', movieeRouter);
 
 
 
+// app.get('/sse', sseExpress, function(req, res) {
+//   res.sse('messaje', {
+//     data: 'pong'
+//   });
+//   setInterval(() => {
+//     var d = Math.random();
+//     res.sse('push', {
+//       data: d
+//     });
+//   }, 3000)
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -35,7 +35,7 @@ module.exports = {
         try {
             let item = await comment.findById(id);
             item.comment = data.comment;
-            item.user_id = data.user_id;
+            item.name_user = data.name_user;
             item.movie_id = data.movie_id;
             item.created_at = data.created_at;
 

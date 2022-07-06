@@ -10,18 +10,12 @@ var userSchema = new Schema({
     password: String,
 });
 var castSchema = new Schema({
-    adult: Boolean,
     gender: Number,
-    id: Number,
     known_for_department: String,
-    name: String,
     original_name: String,
     popularity: Number,
     profile_path: String,
-    cast_id: Number,
-    character: String,
-    credit_id: String,
-    order: Number
+    character: String
 });
 var genreSchema = new Schema({
     id: Number,
@@ -80,7 +74,7 @@ var videoSchema = new Schema({
 
 var commentsSchema = new Schema({
     comment: String,
-    user_id: String,
+    name_user: String,
     movie_id: String,
     created_at: String,
 });
@@ -88,16 +82,16 @@ var commentsSchema = new Schema({
 var reviewsSchema = new Schema({
     content: String,
     movie_id: String,
-    created_at: String
+    created_at: { type: Date, default: Date.now },
+    url: String
 });
 
 
 var notificationsSchema = new Schema({
     content: String,
-    link: String,
     status: String,
     created_at: String,
-    movie_id: String
+    user_name: String
 });
 
 

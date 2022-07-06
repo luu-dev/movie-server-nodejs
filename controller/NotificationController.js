@@ -16,7 +16,7 @@ module.exports = {
             return await notification.findById(id);
 
         } catch (e) {
-            console.log('video getById error:', e.message);
+            console.log(' getById error:', e.message);
             return false;
         }
     },
@@ -35,9 +35,9 @@ module.exports = {
         try {
             let item = await notification.findById(id);
             item.content = data.content;
-            item.link = data.link;
+            item.status = data.status;
             item.created_at = data.created_at;
-            item.movie_id = data.movie_id;
+            item.user_name = data.user_name;
 
             return await item.save();
 
@@ -54,4 +54,10 @@ module.exports = {
             return false
         }
     }
+
+
+
+
+
+
 };

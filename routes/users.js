@@ -4,6 +4,7 @@ const config = require('config');
 const bodyParser = require("body-parser");
 const model = require("../model");
 const user = model.model('user');
+const userRes = require('../controller/UserController');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 /* GET users listing. */
@@ -12,6 +13,15 @@ router.get('/', function (req, res) {
 
 });
 
+router.post('/insert', async function (req, res, next) {
+    const body = req.body;
+    var data = {
+        name: body.name,
+        password : ""
+    };
+    let insert = await userRes.insert(data);
+    res.status(200).send(insert);
+});
 
 
 // router.get('/get-data', function (req, res, next) {
@@ -44,9 +54,7 @@ router.post('/', function (req, res, next) {
                         res.status(200).send('sucess');
                     //res.render("movie")
                         }
-
                 }
-
             });
         } else {
             response.msg = "Username or password invalid!";

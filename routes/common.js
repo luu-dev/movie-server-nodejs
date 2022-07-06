@@ -1,4 +1,5 @@
 const config = require('config');
+var fs = require('fs');
 
 function validKey(query_data) {
     var api_key_name = "api_key";
@@ -29,5 +30,27 @@ function createGenreFilter(list) {
     return result;
 }
 
+async function createFolder(dir) {
+    if (fs.existsSync(dir)) {
+        console.log('Directory exists: ', dir);
+        return true;
+    } else {
+        return new Promise(function(resolve, reject) {
+            fs.mkdir(dir, 777, function(err){
+                if(err) console.log('Directory create error: ', err);
+                resolve(!err)
+            });
+        });
+    }
+}
+
+function convertTexToNormalize(str) {
+    return str.normalize('NFD')
+        .replace(/[\u0300-\u036f \s]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
+
 exports.validKey= validKey;
 exports.createGenreFilter= createGenreFilter;
+exports.createFolder = createFolder;
+exports.convertTexToNormalize = convertTexToNormalize;

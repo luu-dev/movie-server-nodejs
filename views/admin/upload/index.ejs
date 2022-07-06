@@ -1,0 +1,92 @@
+<div class="main-panel page-video" >
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">Upload Film</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Tables</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Datatables</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group col-md-3">
+                <form id="image_upload" method="post" action="" enctype="multipart/form-data">
+                    <label for="inputData">Upload film</label>
+                    <input type="file" name="img" id="img" multiple="multiple"/>
+                    <button type="button" id="save" class="btn btn-success btn-sm">Save</button>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Add Row</h4>
+                                <button class="btn btn-primary btn-round ml-auto video_add_btn">
+                                    <i class="fa fa-plus"></i>
+                                    Add Row
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display table table-striped table-hover video_list_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Movie</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Movie</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- create, update modal -->
+    <%- include ('create') %>
+
+    <div class="template hidden">
+        <table>
+            <tr>
+                <td class="item_name"></td>
+                <td class="item_status"></td>
+                <td class="item_movie">
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+    });
+</script>

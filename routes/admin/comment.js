@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const bodyParser = require("body-parser");
-const commentRes = require('../../controller/VideoController');
+const commentRes = require('../../controller/CommentController');
 const userRes = require('../../controller/CountryController');
 const spokenRes = require('../../controller/SpokenLangueController');
 

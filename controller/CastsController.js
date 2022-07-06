@@ -2,6 +2,15 @@ const model = require('../model');
 const cast = model.model('cast');
 
 module.exports = {
+    getList: async () => {
+        try {
+            var data = await cast.find().exec();
+            return data;
+
+        } catch (e) {
+            return false;
+        }
+    },
     getById: async (id) => {
         try {
             return await cast.findById(id);
@@ -25,17 +34,12 @@ module.exports = {
     update : async (id, data) => {
         try {
             let item = await cast.findById(id);
-            item.name = data.name;
-            item.adult = data.adult;
             item.gender = data.gender;
             item.known_for_department = data.known_for_department;
             item.original_name = data.original_name;
             item.popularity = data.popularity;
             item.profile_path = data.profile_path;
-            item.cast_id = data.cast_id;
             item.character = data.character;
-            item.credit_id = data.credit_id;
-            item.order = data.order;
             return await item.save();
 
         } catch (e) {

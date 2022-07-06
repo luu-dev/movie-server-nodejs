@@ -1,0 +1,133 @@
+<div class="main-panel page-movie">
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">Movie</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Tables</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Datatables</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Add Row</h4>
+                                <button class="btn btn-primary btn-round ml-auto genre_add_btn">
+                                    <i class="fa fa-plus"></i>
+                                    Add Row
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display table table-striped table-hover movie_list_table">
+                                    <thead>
+                                    <tr>
+                                        <th>original_language</th>
+                                        <th>popularity</th>
+                                        <th>release_date</th>
+                                        <th>title</th>
+                                        <th>vote_average</th>
+                                        <th>status</th>
+                                        <th>runtime</th>
+                                        <th style="width: 10%">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>original_language</th>
+                                        <th>popularity</th>
+                                        <th>release_date</th>
+                                        <th>title</th>
+                                        <th>vote_average</th>
+                                        <th>status</th>
+                                        <th>runtime</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="template hidden">
+        <table>
+            <tr>
+                <td class="item_original_language"></td>
+                <td class="item_popularity"></td>
+                <td class="item_release_date"></td>
+                <td class="item_title"></td>
+                <td class="item_vote_average"></td>
+                <td class="item_status"></td>
+                <td class="item_runtime"></td>
+<!--                <td class="item_backdrop_path"><img src="" alt=""/></td>-->
+                <td class="item_action">
+                    <div class="form-button-action">
+                        <a href="" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Detail</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //init js: call genre list when load page
+        showMovie();
+
+        function showMovie() {
+            $.ajax({
+                url: '/admin/moviee/list',
+                type: 'POST',
+                data: {}
+            })
+                .done(function (data) {
+                    //append tyo view
+                    let template = $('.page-movie .template');
+                    console.log(data)
+                    $(data).each(function (i, e) {
+                        let row = template.find('table tr').clone();
+                        row.find('.item_original_language').html(e.original_language);
+                        row.find('.item_popularity').html(e.popularity);
+                        row.find('.item_release_date').html(e.release_date);
+                        row.find('.item_title').html(e.title);
+                        row.find('.item_vote_average').html(e.vote_average);
+                        row.find('.item_status').html(e.status);
+                        row.find('.item_runtime').html(e.runtime);
+                        // row.find('.item_backdrop_path').html(e.name);
+                        row.find('.item_action button').attr('data-id', e._id);
+                        row.find('.item_action a').attr("href", "/admin/moviee/detail/"+e._id);
+                        $('.page-movie .movie_list_table tbody').append(row);
+                    });
+                })
+                .fail(function (error) {
+                    console.log('error:', error.message);
+                });
+        }
+    });
+</script>

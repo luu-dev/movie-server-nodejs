@@ -1,0 +1,121 @@
+<div class="modal fade" id="notifi_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header no-bd">
+                <h5 class="modal-title">
+                    <span class="fw-mediumbold title_status">New</span>
+                    <span class="fw-light">Row</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="small">Create a new row using this form, make sure you fill them all</p>
+                <div class="row">
+                    <input id="id" type="hidden">
+
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            <label>Content</label>
+                            <input id="content" type="text" class="form-control" name="content"
+                                   placeholder="fill content">
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <label>User</label>
+                            <input id="user" list="users" type="text" class="form-control" name="user"
+                                   placeholder="fill user">
+                            <datalist id="users">
+                                <option value="all">
+
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 pr-0">
+                        <div class="form-group form-group-default">
+                            <select id="status"  name="status" >
+
+                                <option ></option>
+                                <option value="update">update</option>
+                                <option value="pending">pending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer no-bd">
+                <button type="button" id="send" class="btn btn-primary">Send</button>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        //init js: call country list when load page
+        showData();
+        let modal = $('#notifi_modal');
+        modal.modal('show');
+
+        function showData() {
+            $.ajax({
+                url: '/admin/notification/listuser',
+                type: 'POST',
+                data: {}
+            })
+                .done(function (data) {
+                    $(data).each(function (i, e) {
+                        console.log(data)
+                        //append tyo view
+                        modal.find('#users').append($('<option>', {
+                            value: e.name,
+                            lable: e._id
+                        }));
+                    });
+                })
+                .fail(function (error) {
+                    console.log('error:', error.message);
+                });
+        }
+
+        $(document).on('click', '#notifi_modal button#send', function () {
+            changeFunc()
+            // let eventSource = new EventSource('http://localhost:3031/admin/notification/message');
+            //
+            // eventSource.addEventListener('message', (e) => {
+            //     console.log(e.data);
+            // });
+        })
+    });
+
+    function changeFunc() {
+
+        // var selectedValue =  $('#notifi_modal').find('#status').find(":selected").text()
+        // console.log(selectedValue)
+
+        $.ajax({
+            url: '/admin/notification/update',
+            type: 'POST',
+            data: {
+                content: $("#notifi_modal #content").val(),
+                status: $('#notifi_modal #status').find(":selected").val(),
+                created_at:"",
+                user_name: $('#notifi_modal').find('#user').val()
+            }
+        })
+            .done(function (data) {
+                if (data.status === "update")
+                    alert("ready to send")
+            })
+            .fail(function (error) {
+                console.log('error:', error.message);
+            });
+    }
+
+</script>

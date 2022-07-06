@@ -40,29 +40,23 @@
                                 <table class="display table table-striped table-hover cast_list_table">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Adult</th>
                                         <th>Gender</th>
                                         <th>Known For Department</th>
                                         <th>Original Name</th>
                                         <th>Popularity</th>
                                         <th>Profile_path</th>
                                         <th>Character</th>
-                                        <th>Order</th>
                                         <th style="width: 10%">Action</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Adult</th>
                                         <th>Gender</th>
                                         <th>Known For Department</th>
                                         <th>Original Name</th>
                                         <th>Popularity</th>
                                         <th>Profile Path</th>
                                         <th>Character</th>
-                                        <th>Order</th>
                                         <th>Action</th>
                                     </tr>
                                     </tfoot>
@@ -84,17 +78,12 @@
     <div class="template hidden">
         <table>
             <tr>
-                <td class="item_name"></td>
-                <td class="item_adult"></td>
                 <td class="item_gender"></td>
-                <td class="item_known-for-department"></td>
-                <td class="item_original-name"></td>
+                <td class="item_known_for_department"></td>
+                <td class="item_original_name"></td>
                 <td class="item_popularity"></td>
-                <td class="item_profile-path"></td>
-                <td class="item_card-id"></td>
+                <td class="item_profile_path"><img src="" alt="" /></td>
                 <td class="item_character"></td>
-                <td class="item_credit-id"></td>
-                <td class="item_order"></td>
                 <td class="item_action">
                     <div class="form-button-action">
                         <button type="button" data-toggle="tooltip" title=""
@@ -130,17 +119,12 @@
                     let cast_template = $('.page-cast .template');
                     $(data).each(function (i, e) {
                         let cast_row = cast_template.find('table tr').clone();
-                        cast_row.find('.item_name').html(e.name);
-                        cast_row.find('.item_adult').html(e.adult);
                         cast_row.find('.item_gender').html(e.gender);
                         cast_row.find('.item_known_for_department').html(e.known_for_department);
                         cast_row.find('.item_original_name').html(e.original_name);
                         cast_row.find('.item_popularity').html(e.popularity);
-                        cast_row.find('.item_profile_path').html(e.profile_path);
-                        cast_row.find('.item_cast_id').html(e.cast_id);
+                        cast_row.find('.item_profile_path img').attr('src', '/images/' + e.profile_path);
                         cast_row.find('.item_character').html(e.character);
-                        cast_row.find('.item_credit_id').html(e.credit_id);
-                        cast_row.find('.item_order').html(e.order);
                         cast_row.find('.item_action button').attr('data-id', e._id);
                         $('.page-cast .cast_list_table tbody').append(cast_row);
                     });

@@ -16,7 +16,7 @@ module.exports = {
             return await review.findById(id);
 
         } catch (e) {
-            console.log('video getById error:', e.message);
+            console.log(' getById error:', e.message);
             return false;
         }
     },
@@ -25,7 +25,7 @@ module.exports = {
             return await review.create(data);
 
         } catch (e) {
-            console.log('video insert error:', e.message);
+            console.log(' insert error:', e.message);
             return false;
         }
     },
@@ -36,7 +36,7 @@ module.exports = {
             let item = await review.findById(id);
             item.content = data.content;
             item.movie_id = data.movie_id;
-            item.created_at = data.created_at;
+            item.url = data.url;
 
 
             return await item.save();

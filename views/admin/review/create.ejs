@@ -1,0 +1,210 @@
+<!-- Modal -->
+<div class="modal fade" id="review_create_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header no-bd">
+                <h5 class="modal-title">
+					<span class="fw-mediumbold title_status">New</span>
+                    <span class="fw-light">Row</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="small">Create a new row using this form, make sure you fill them all</p>
+                <div class="row">
+                    <input id="id" type="text" />
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            <input type="text" list="lstmovie" class="form-control" placeholder="Film name"
+                                   aria-label="Search" aria-describedby="basic-addon1" id="film_input">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            <label>Content</label>
+                            <textarea class="form-control" id="content" rows="5" placeholder="fill content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 pr-0">
+                        <div class="form-group form-group-default">
+                            <label>Url</label>
+                            <input id="url" type="text" class="form-control" name="url" placeholder="fill url" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer no-bd">
+                <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //add click
+        $(document).on('click', '.page-review .review_add_btn', function () {
+            let modal = $('#review_create_modal');
+            changeModal();
+            modal.modal('show');
+        });
+
+        //edit click
+        $(document).on('click', '.review_list_table .item_action button.edit', function () {
+            var item_id = $(this).attr('data-id');
+
+            if(item_id) {
+                let modal = $('#review_create_modal');
+                //clear data in modal
+                changeModal(true);
+
+                //update id value
+                modal.find('input#id').val(item_id);
+                modal.modal('show');
+
+                getData(item_id);
+            }
+        });
+
+        $(document).on('click', '.review_list_table .item_action button.delete', function () {
+            var item_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '/admin/review/delete',
+                type: 'POST',
+                dataType : 'json',
+                data: {
+                   _id :item_id
+                }
+            })
+                .done(function (data) {
+                     window.location.href = '/admin/review';
+                })
+
+        });
+
+
+        //insert/update company
+        $(document).on('click', '#review_create_modal button#addRowButton', function () {
+            let modal = $('#review_create_modal');
+            var review_id = modal.find('#id').val();
+            var film_name = modal.find('#film_input').val();
+            var film_id = $('.page-review #lstmovie [value="' + film_name + '"]').data('value');
+
+            //create
+            if(film_id) {
+                //create new review
+                if(!review_id) {
+                    $.ajax({
+                        url: '/admin/review/insert',
+                        type: 'POST',
+                        data: {
+                            content: modal.find("#content").val(),
+                            url: modal.find("#url").val(),
+                            movie_id: film_id
+                        }
+                    }).done(function (data) {
+                        modal.modal('hide');
+
+                        //fill to table
+                        var search_input_val = $('.page-review .navbar #search_input').val();
+                        if (search_input_val == film_name) {
+                            let template = $('.page-review .template');
+
+                            let row = template.find('table tr').clone();
+                            row.find('.item_content').html(data.content);
+                            row.find('.item_created_at').html(data.created_at);
+                            row.find('.item_url').html(data.url);
+                            row.find('.item_action button').attr('data-id', data._id);
+
+                            $('.page-review .review_list_table tbody').prepend(row);
+                        }
+                    });
+                } else {
+                    //update review by id
+                    $.ajax({
+                        url: '/admin/review/update',
+                        type: 'POST',
+                        data: {
+                            content: modal.find("#content").val(),
+                            url: modal.find("#url").val(),
+                            movie_id: film_id,
+                            id : review_id
+                        }
+                    }).done(function (data) {
+                        modal.modal('hide');
+
+                        //fill to table
+                        var search_input_val = $('.page-review .navbar #search_input').val();
+                        if (search_input_val == film_name) {
+
+                            let item_update_box = $('.review_list_table tr .edit[data-id="' + review_id + '"]').parents('tr');
+                            item_update_box.find('.item_content').html(data.content);
+                            item_update_box.find('.item_url').html(data.url);
+                        }
+                    });
+                }
+            } else {
+                alert('Pls select a film!');
+            }
+        });
+
+
+        function update() {
+
+        }
+
+
+        //call data by id
+        function getData(id) {
+            if(id) {
+                $.ajax({
+                    url: '/admin/review/getItem',
+                    type: 'POST',
+                    dataType : 'json',
+                    data: {
+                        id: id
+                    }
+                })
+                    .done(function (data) {
+                        let modal = $('#review_create_modal');
+                        if(data.movie_id) {
+                            var film_name = $('.page-review #lstmovie [data-value="' + data.movie_id + '"]').attr('value');
+                            modal.find('input#film_input').val(film_name);
+                        }
+                        if(data.content) {
+                            modal.find('textarea#content').val(data.content);
+                        }
+                        if(data.url) {
+                            modal.find('input#url').val(data.url);
+                        }
+                        if(data.created_at) {
+                            modal.find('input#created_at').val(data.created_at);
+                        }
+
+                    })
+                    .fail(function (error) {
+                        console.log('error:', error.message);
+                    });
+            }
+        }
+
+        //change status modal insert/update company
+        function changeModal(is_update) {
+            let modal = $('#review_create_modal'),
+                label = 'Add';
+            modal.find('input, textarea').val('');
+
+            if(is_update) {
+                label = 'Update';
+            }
+            modal.find('.title_status, #addRowButton').html(label);
+        }
+    });
+</script>

@@ -54,7 +54,6 @@ module.exports = {
             item.production_companies_id = data.production_companies_id;
             item.spoken_languages_id = data.spoken_languages_id;
 
-
             return await item.save();
 
         } catch (e) {

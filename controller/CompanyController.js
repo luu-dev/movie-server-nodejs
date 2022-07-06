@@ -1,6 +1,15 @@
 const model = require("../model");
 const company = model.model('production_company');
 module.exports = {
+    getList: async () => {
+        try {
+            var data = await company.find().exec();
+            return data;
+
+        } catch (e) {
+            return false;
+        }
+    },
     getById: async (id) => {
         try {
             return await company.findById(id);
@@ -25,8 +34,8 @@ module.exports = {
         try {
             let item = await company.findById(id);
             item.name = data.name;
-            item.logo_path = data.logo_path;
             item.origin_country = data.origin_country;
+            if(data.logo_path) item.logo_path = data.logo_path;
             return await item.save();
 
         } catch (e) {

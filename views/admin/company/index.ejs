@@ -74,7 +74,7 @@
             <tr>
                 <td class="item_name"></td>
                 <td class="item_country"></td>
-                <td class="item_img"><img src="" alt="" /></td>
+                <td class="item_img"><img src="" alt="" width="300" height="300"/></td>
                 <td class="item_action">
                     <div class="form-button-action">
                         <button type="button" data-toggle="tooltip" title=""
@@ -112,7 +112,7 @@
                     let company_row = company_template.find('table tr').clone();
                     company_row.find('.item_name').html(e.name);
                     company_row.find('.item_country').html(e.origin_country);
-                    // company_row.find('.item_img img').attr('src', '/images' + e.logo_path);
+                     company_row.find('.item_img img').attr('src', '/images/' + e.logo_path);
                     company_row.find('.item_action button').attr('data-id', e._id);
                     $('.page-company .company_list_table tbody').append(company_row);
                 });

@@ -1,0 +1,219 @@
+<div class="main-panel page-review">
+    <div class="content">
+        <div class="page-inner">
+
+            <div class="page-header">
+                <h4 class="page-title">Review</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Tables</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Datatables</a>
+                    </li>
+                </ul>
+            </div>
+            <nav class="navbar navbar-light bg-light">
+                <div class="row">
+                    <div class="form-group pl-0">
+                        <div class="input-group">
+                            <input type="text" list="lstmovie" class="form-control" placeholder="Search"
+                                   aria-label="Search" aria-describedby="basic-addon1" id="search_input">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-primary btn-border" type="button" id="search_button">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                        <!--                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search_input">-->
+                        <!--                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="search_button">Search</button>-->
+                    </div>
+                </div>
+
+            </nav>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Add Row</h4>
+                                <button class="btn btn-primary btn-round ml-auto review_add_btn">
+                                    <i class="fa fa-plus"></i>
+                                    Add Row
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display table table-striped table-hover review_list_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Content</th>
+                                        <th>created at</th>
+                                        <th>url</th>
+                                        <th style="width: 10%">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <!--<tr>
+                                        <th>Content</th>
+                                        <th>created at</th>
+                                        <th>url</th>
+                                        <th>Action</th>
+                                    </tr>-->
+                                    </tfoot>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <datalist id="lstmovie"></datalist>
+    <!-- create, update modal -->
+    <%- include ('create') %>
+
+    <div class="template hidden">
+        <table>
+            <tr>
+                <td class="item_content"></td>
+                <td class="item_created_at">
+                <td class="item_url">
+                <td class="item_action">
+                    <div class="form-button-action">
+                        <button type="button" data-toggle="tooltip" title=""
+                                class="btn btn-link btn-primary btn-lg edit"
+                                data-original-title="Edit Task" data-id="">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button type="button" data-toggle="tooltip" title=""
+                                class="btn btn-link btn-danger delete"
+                                data-original-title="Remove" data-id="">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //init js: call country list when load page
+        function showData(id) {
+            $.ajax({
+                url: '/admin/review/listbymovieid',
+                type: 'POST',
+                data: {
+                    movie_id: id
+                }
+            })
+                .done(function (data) {
+                    console.log(data)
+                    let review_table = $('.page-review .review_list_table');
+                    //append tyo view
+                    let template = $('.page-review .template');
+                    //clear old datap
+                    review_table.find('tbody tr').remove();
+
+                    $(data).each(function (i, e) {
+                        let o = template.find('table tr').clone();
+                        o.find('.item_content').html(e.content);
+                        o.find('.item_created_at').html(e.created_at);
+                        o.find('.item_url').html(e.url);
+                        o.find('.item_action button').attr('data-id', e._id);
+                        review_table.find('tbody').append(o);
+                    });
+                })
+                .fail(function (error) {
+                    console.log('error:', error.message);
+                });
+        }
+
+        getListMovie()
+
+        function getListMovie() {
+            $.ajax({
+                url: '/admin/review/listmovie',
+                type: 'POST',
+                data: {}
+            })
+                .done(function (data) {
+                    var film_list_autocomplete = $(".page-review #lstmovie")
+                    $(data).each(function (i, e) {
+                        film_list_autocomplete.append($('<option>', {
+                            "data-value":e._id ,
+                            "value":  e.title
+                        }));
+
+                    })
+                })
+                .fail(function (error) {
+                    console.log('error:', error.message);
+                });
+        }
+        $('.page-review .navbar #search_button').click(function()
+        {
+            let template = $('.page-review .template');
+            let o = template.find('table > tr').clone();
+            o.remove()
+
+            var search_input_val = $('.page-review .navbar #search_input').val();
+            // console.log($('#lstmovie [value="' + search_input_val + '"]').data('value'));
+            let id = $('#lstmovie [value="' + search_input_val + '"]').data('value')
+            showData(id)
+        });
+
+        // var availableTags = [
+        //     "ActionScript",
+        //     "AppleScript",
+        //     "Asp",
+        //     "BASIC",
+        //     "C",
+        //     "C++",
+        //     "Clojure",
+        //     "COBOL",
+        //     "ColdFusion",
+        //     "Cycle",
+        //     "Erlang",
+        //     "Fortran",
+        //     "Groovy",
+        //     "Haskell",
+        //     "Java",
+        //     "JavaScript",
+        //     "Lisp",
+        //     "Perl",
+        //     "PHP",
+        //     "Python",
+        //     "Ruby",
+        //     "Scala",
+        //     "Scheme"];
+        // $(".page-review .navbar #search_input").autocomplete({
+        //     source: availableTags
+        // });
+        //
+        //
+        // $(document).on('click', '.page-review #search_button', function () {
+        //     var input_val = $(".page-review .navbar #search_input").val();
+        //     console.log('input_val', input_val);
+        // });
+
+
+    });
+</script>
